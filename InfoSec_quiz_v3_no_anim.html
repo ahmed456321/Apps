@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Information Security — Final Revision Quiz</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Cairo:wght@400;600;700&display=swap');
+:root{
+  --gold:#a78bfa;
+  --bg:#080818;--card:#0e0a24;
+  --border:#2a1a5e;--border2:#4c2a9e;
+  --green:#34d399;--red:#f87171;
+  --text:#e0d9ff;--muted:rgba(167,139,250,0.6);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Sora',sans-serif;background:var(--bg);min-height:100vh;color:var(--text);}
+
+.hero{background:linear-gradient(135deg,#05010f 0%,#0d0530 40%,#1a0a5e 70%,#2d1080 100%);
+  padding:52px 32px 44px;text-align:center;position:relative;overflow:hidden;border-bottom:2px solid var(--border2);}
+.hero::before{content:'';position:absolute;top:-60px;left:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(120,80,255,0.22) 0%,transparent 70%);}
+.hero::after{content:'';position:absolute;bottom:-80px;right:-40px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(56,182,255,0.15) 0%,transparent 70%);}
+.hero .tag{font-size:0.78rem;color:rgba(180,160,255,0.8);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.hero .tag span{color:var(--gold);}
+.hero h1{font-size:2.4rem;font-weight:800;color:#fff;letter-spacing:-1px;line-height:1.1;}
+.hero h1 em{color:var(--gold);font-style:normal;}
+.hero p{color:rgba(200,185,255,0.7);margin-top:10px;font-size:0.95rem;}
+.pills{margin-top:18px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.pill{background:rgba(120,80,255,0.12);border:1.5px solid rgba(120,80,255,0.4);color:#c4b5fd;padding:4px 16px;border-radius:30px;font-size:0.78rem;font-weight:700;}
+.pill.hot{background:var(--gold);color:#05010f;border-color:var(--gold);}
+
+.topbar{background:#05010f;border-bottom:2px solid var(--border);padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 2px 24px rgba(80,40,200,0.3);}
+.topbar label{color:var(--muted);font-size:0.82rem;font-weight:600;}
+.topbar select{padding:7px 13px;border:2px solid var(--border);background:#0e0a24;color:#c4b5fd;border-radius:8px;font-family:'Sora',sans-serif;font-size:0.85rem;outline:none;cursor:pointer;}
+.topbar select:focus{border-color:var(--gold);}
+
+.statbar{background:#08041a;border-bottom:1px solid var(--border);padding:9px 22px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;}
+.stat{display:flex;align-items:center;gap:6px;font-size:0.85rem;}
+.stat .val{font-weight:800;font-size:0.98rem;color:var(--gold);}
+.stat .lbl{color:var(--muted);}
+.progress-wrap{flex:1;background:#1a0a40;border-radius:30px;height:7px;min-width:80px;}
+.progress-bar{height:100%;background:linear-gradient(90deg,#3b82f6,#a78bfa,#ec4899);border-radius:30px;transition:width 0.4s;}
+
+.controls{background:#08041a;padding:10px 22px;display:flex;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--border);}
+.btn{padding:8px 18px;border:none;border-radius:8px;font-family:'Sora',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.16s;display:flex;align-items:center;gap:5px;}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.15);}
+.btn-gold{background:var(--gold);color:#05010f;}
+.btn-outline{background:transparent;border:2px solid var(--border);color:var(--muted);}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+.btn-red{background:#1a0820;color:#fca5a5;border:2px solid #7f1d1d;}
+.btn-green{background:#052018;color:#6ee7b7;border:2px solid #065f46;}
+.btn-purple{background:#12083a;color:#c4b5fd;border:2px solid #4c1d95;}
+
+.main{max-width:920px;margin:0 auto;padding:24px 18px 70px;}
+
+#score-panel{display:none;background:linear-gradient(135deg,#0e0a24,#1e0a50);border:2px solid var(--gold);border-radius:20px;padding:36px;text-align:center;color:#e0d9ff;margin-bottom:28px;box-shadow:0 0 60px rgba(120,80,255,0.3);}
+#score-panel .big{font-size:5.5rem;font-weight:800;color:var(--gold);line-height:1;}
+#score-panel h2{font-size:1.4rem;margin-bottom:8px;color:#c4b5fd;}
+#score-panel .grade{font-size:1rem;margin-top:12px;opacity:0.8;}
+#score-panel .details{margin-top:16px;display:flex;gap:24px;justify-content:center;flex-wrap:wrap;}
+#score-panel .det-box{background:rgba(255,255,255,0.06);border-radius:10px;padding:10px 18px;}
+#score-panel .det-box .dv{font-size:1.8rem;font-weight:800;color:#fff;}
+#score-panel .det-box .dl{font-size:0.78rem;color:rgba(180,160,255,0.5);margin-top:2px;}
+
+.q-card{background:var(--card);border:2px solid var(--border);border-radius:16px;margin-bottom:18px;overflow:hidden;transition:border-color 0.2s,box-shadow 0.2s;box-shadow:0 4px 20px rgba(60,20,140,0.25);}
+.q-card.correct{border-color:#34d399;box-shadow:0 0 0 2px rgba(52,211,153,0.2);}
+.q-card.wrong{border-color:#f87171;box-shadow:0 0 0 2px rgba(248,113,113,0.2);}
+.q-meta{padding:9px 16px;background:#08041a;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.q-num{background:var(--gold);color:#05010f;border-radius:6px;padding:1px 10px;font-weight:800;font-size:0.78rem;}
+.q-badge{font-size:0.7rem;padding:2px 8px;border-radius:20px;font-weight:700;}
+.lvl-easy{background:rgba(52,211,153,0.15);color:#6ee7b7;}
+.lvl-medium{background:rgba(251,191,36,0.15);color:#fde68a;}
+.lvl-hard{background:rgba(248,113,113,0.18);color:#fca5a5;}
+.lvl-tricky{background:rgba(167,139,250,0.2);color:#ddd6fe;}
+.t-infosec{background:rgba(139,92,246,0.15);color:#c4b5fd;}
+.t-cyber{background:rgba(59,130,246,0.15);color:#93c5fd;}
+.t-crypto{background:rgba(236,72,153,0.15);color:#f9a8d4;}
+.t-physical{background:rgba(16,185,129,0.15);color:#6ee7b7;}
+.t-stego{background:rgba(245,158,11,0.15);color:#fde68a;}
+.t-auth{background:rgba(99,102,241,0.15);color:#c7d2fe;}
+.t-windows{background:rgba(14,165,233,0.15);color:#7dd3fc;}
+.t-kali{background:rgba(239,68,68,0.15);color:#fca5a5;}
+.t-tf{background:rgba(167,139,250,0.15);color:#ddd6fe;}
+.expected-badge{background:rgba(255,215,0,0.15);color:#fde68a;border:1px solid rgba(255,215,0,0.3);}
+
+.q-text{padding:16px 18px 10px;color:#e0d9ff;font-size:0.97rem;font-weight:600;line-height:1.65;}
+.options{padding:0 16px 14px;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(max-width:580px){.options{grid-template-columns:1fr;}}
+.opt-btn{background:#110830;border:2px solid var(--border);color:rgba(196,181,253,0.85);border-radius:10px;padding:10px 13px;font-family:'Sora',sans-serif;font-size:0.85rem;font-weight:600;text-align:left;cursor:pointer;transition:all 0.14s;line-height:1.4;}
+.opt-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold);background:#1a0e42;}
+.opt-btn.reveal-correct{background:rgba(52,211,153,0.12);border-color:#34d399;color:#6ee7b7;}
+.opt-btn.selected-wrong{background:rgba(248,113,113,0.12);border-color:#f87171;color:#fca5a5;}
+.opt-btn:disabled{cursor:not-allowed;opacity:0.88;}
+.tf-opts{grid-template-columns:1fr 1fr;}
+
+.explanation{display:none;margin:0 16px 6px;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.3);border-radius:8px;padding:9px 13px;color:#6ee7b7;font-size:0.85rem;line-height:1.55;}
+.explanation.show{display:block;}
+.trick-box{display:none;margin:0 16px 14px;background:rgba(120,80,255,0.08);border:1px solid rgba(120,80,255,0.25);border-radius:8px;padding:9px 13px;}
+.trick-box.show{display:block;}
+.trick-label{font-size:0.7rem;font-weight:800;color:var(--gold);margin-bottom:3px;letter-spacing:0.5px;}
+.trick-text{font-size:0.85rem;color:rgba(196,181,253,0.9);line-height:1.5;font-family:'Cairo',sans-serif;}
+
+.pag-wrap{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:26px;}
+.pg-btn{background:#0e0a24;border:2px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 12px;font-family:'Sora',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;transition:all 0.14s;}
+.pg-btn:hover{border-color:var(--gold);color:var(--gold);}
+.pg-btn.active{background:var(--gold);color:#05010f;border-color:var(--gold);}
+
+footer{text-align:center;padding:18px;color:rgba(120,80,255,0.3);font-size:0.78rem;background:#05010f;border-top:1px solid var(--border);}
+
+
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="tag">🔐 Information Security · <span>Final Revision 2025-2026</span></div>
+  <h1>InfoSec <em>Question Bank</em></h1>
+  <p>Dr. Hany Hamdy · InfoSec · Cyberspace · Cryptography · Physical Security · Steganography · Auth · Windows · Kali</p>
+  <div class="pills">
+    <span class="pill hot">375+ Questions</span>
+    <span class="pill">Easy → Very Tricky</span>
+    <span class="pill">MCQ + T/F + Scenario</span>
+    <span class="pill">⭐ Expected Exam</span>
+  </div>
+</div>
+
+<div class="topbar">
+  <label>Topic:</label>
+  <select id="ft" onchange="applyFilter()">
+    <option value="all">All Topics</option>
+    <option value="infosec">InfoSec Basics</option>
+    <option value="cyber">Cybersecurity & Cybercrime</option>
+    <option value="crypto">Cryptography</option>
+    <option value="physical">Physical Security</option>
+    <option value="stego">Steganography & Watermarking</option>
+    <option value="auth">Authentication & Access Control</option>
+    <option value="windows">Windows Security</option>
+    <option value="kali">Kali Linux</option>
+    <option value="tf">True / False</option>
+  </select>
+  <label>Level:</label>
+  <select id="fl" onchange="applyFilter()">
+    <option value="all">All Levels</option>
+    <option value="easy">Easy ✅</option>
+    <option value="medium">Medium ⚡</option>
+    <option value="hard">Hard 🔥</option>
+    <option value="tricky">Tricky 🧠</option>
+  </select>
+  <label>Type:</label>
+  <select id="ftype" onchange="applyFilter()">
+    <option value="all">All</option>
+    <option value="expected">⭐ Expected Only</option>
+  </select>
+</div>
+
+<div class="statbar">
+  <div class="stat"><span class="lbl">Answered:</span><span class="val" id="s-ans">0</span></div>
+  <div class="stat"><span class="lbl">Correct:</span><span class="val" id="s-cor" style="color:var(--green)">0</span></div>
+  <div class="stat"><span class="lbl">Wrong:</span><span class="val" id="s-wrn" style="color:var(--red)">0</span></div>
+  <div class="stat"><span class="lbl">Remaining:</span><span class="val" id="s-rem">200</span></div>
+  <div class="progress-wrap"><div class="progress-bar" id="prog" style="width:0%"></div></div>
+</div>
+
+<div class="controls">
+  <button class="btn btn-gold" onclick="submitAll()">✅ Submit All</button>
+  <button class="btn btn-outline" onclick="showAll()">👁 Show Answers</button>
+  <button class="btn btn-red" onclick="resetAll()">🔄 Reset</button>
+  <button class="btn btn-green" onclick="shuffleQ()">🔀 Shuffle</button>
+  <button class="btn btn-purple" onclick="filterExp()">⭐ Expected Only</button>
+</div>
+
+<div class="main">
+  <div id="score-panel">
+    <h2>Your Score 🌙</h2>
+    <div class="big" id="sp-score">0%</div>
+    <div class="grade" id="sp-grade"></div>
+    <div class="details">
+      <div class="det-box"><div class="dv" id="sp-c">0</div><div class="dl">Correct ✅</div></div>
+      <div class="det-box"><div class="dv" id="sp-w">0</div><div class="dl">Wrong ❌</div></div>
+      <div class="det-box"><div class="dv" id="sp-t">200</div><div class="dl">Total</div></div>
+    </div>
+  </div>
+  <div id="qlist"></div>
+  <div class="pag-wrap" id="pag"></div>
+</div>
+
+<footer>Information Security · Final Revision · Dr. Hany Hamdy · 2025-2026</footer>
+
+<script>
+const ALL_Q = [
+
+// ══════════════════════════════════════════════════════════
+// 1. INFOSEC BASICS
+// ══════════════════════════════════════════════════════════
+{id:1,text:"Information Security (InfoSec) is best defined as:",opts:["Protecting only digital files from viruses","Protecting sensitive data from unauthorized access, use, alteration, or destruction","Monitoring employee activities online","Encrypting emails only"],ans:1,level:"easy",topic:"infosec",expected:true,exp:"InfoSec protects sensitive data from unauthorized access, use, alteration, or destruction ensuring CIA triad.",trick:"تريكة: InfoSec = حماية البيانات الحساسة من الوصول غير المصرح به بكل أشكاله."},
+
+{id:2,text:"The CIA triad in InfoSec stands for:",opts:["Central Intelligence Agency","Confidentiality, Integrity, Availability","Cybersecurity, Identity, Authentication","Compliance, Integration, Auditing"],ans:1,level:"easy",topic:"infosec",expected:true,exp:"CIA Triad = Confidentiality + Integrity + Availability — the 3 core principles of InfoSec.",trick:"تريكة: CIA = Confidentiality + Integrity + Availability. أساس كل حماية."},
+
+{id:3,text:"Confidentiality in InfoSec means:",opts:["Data is always available when needed","Data accuracy is maintained","Information is not disclosed to unauthorized individuals","Users can always access the system"],ans:2,level:"easy",topic:"infosec",expected:true,exp:"Confidentiality = preventing unauthorized disclosure. Achieved via encryption, access controls.",trick:"تريكة: Confidentiality = السرية. مش هيشوفه غير اللي المفروض يشوفه."},
+
+{id:4,text:"Integrity in the CIA triad means:",opts:["Data is kept secret","Data is backed up regularly","Data accuracy and completeness are maintained — cannot be edited without authorization","Data is always accessible"],ans:2,level:"easy",topic:"infosec",expected:true,exp:"Integrity = maintaining accuracy and completeness. Data cannot be edited in an unauthorized way. Achieved via hashing.",trick:"تريكة: Integrity = النزاهة. البيانات دقيقة وما اتغيرتش بدون إذن."},
+
+{id:5,text:"Availability in InfoSec ensures that:",opts:["Data cannot be modified","Only admins can read data","Information must be available when needed by authorized users","Data is encrypted at rest"],ans:2,level:"easy",topic:"infosec",exp:"Availability = information accessible when needed. Achieved via redundancy and backups.",trick:"تريكة: Availability = البيانات متاحة وقت الحاجة."},
+
+{id:6,text:"Non-repudiation in InfoSec means:",opts:["Data cannot be accessed by outsiders","One party cannot deny sending or receiving a message or transaction","Data is always encrypted","Users are authenticated before login"],ans:1,level:"medium",topic:"infosec",expected:true,exp:"Non-repudiation = sender cannot deny sending, receiver cannot deny receiving. Important for transactions.",trick:"تريكة: Non-repudiation = مش ممكن تقول 'أنا مبعتش' أو 'أنا ماستلمتش'."},
+
+{id:7,text:"Authenticity in InfoSec means:",opts:["All data is encrypted","Verifying that users are who they say they are and inputs come from trusted sources","Data cannot be modified","Systems are always online"],ans:1,level:"medium",topic:"infosec",exp:"Authenticity = verifying identity of users and trusted sources of data.",trick:"تريكة: Authenticity = التحقق من الهوية. 'إنت فعلاً مين اللي بتقول إنك هو؟'"},
+
+{id:8,text:"Accountability in InfoSec means:",opts:["Only admins are responsible for security","Actions of an entity can be traced uniquely to that entity","Data breaches are always reported","All users have equal access"],ans:1,level:"medium",topic:"infosec",exp:"Accountability = ability to trace actions uniquely to the responsible entity. Creates audit trails.",trick:"تريكة: Accountability = المساءلة. كل حاجة بتتعمل ممكن يتتبعها لصاحبها."},
+
+{id:9,text:"Which of the following is NOT a reason why organizations need Information Security?",opts:["Protecting sensitive information","Mitigating cyber risks","Increasing employee salaries","Ensuring business continuity"],ans:2,level:"easy",topic:"infosec",exp:"Salary increases are an HR matter, not an InfoSec goal. InfoSec goals include protecting data, mitigating risk, reputation, continuity.",trick:"تريكة: سؤال NEGATIVE. الراتب مش من أهداف InfoSec."},
+
+{id:10,text:"Which InfoSec principle ensures that a user cannot later deny having performed an action?",opts:["Confidentiality","Integrity","Non-repudiation","Availability"],ans:2,level:"medium",topic:"infosec",expected:true,exp:"Non-repudiation prevents users from denying actions they performed — critical in digital contracts and transactions.",trick:"تريكة: إنكار الفعل = Non-repudiation يمنعه."},
+
+{id:11,text:"InfoSec requires a multi-disciplinary approach involving:",opts:["Technology only","People, processes, and technology","Hardware and software only","Government regulations only"],ans:1,level:"easy",topic:"infosec",exp:"Effective InfoSec requires people (training), processes (policies), and technology (tools) together.",trick:"تريكة: InfoSec = People + Processes + Technology. ثلاثتهم مع بعض."},
+
+{id:12,text:"Which is a DISADVANTAGE of Information Security?",opts:["Protecting sensitive data","Mitigating cyber risk","False sense of security","Ensuring business continuity"],ans:2,level:"medium",topic:"infosec",expected:true,exp:"A false sense of security is a real disadvantage — organizations may overlook other controls thinking they're fully protected.",trick:"تريكة: الإحساس الزائف بالأمان = خطر حقيقي. من عيوب InfoSec."},
+
+{id:13,text:"Inaccurate classification of information is a disadvantage of InfoSec because:",opts:["It speeds up the system","It leads to inadequate protection or unnecessary access restrictions","It reduces encryption strength","It eliminates audit logs"],ans:1,level:"medium",topic:"infosec",exp:"Human classification errors lead to either under-protecting sensitive data or over-restricting access to harmless data.",trick:"تريكة: التصنيف الغلط = إما حماية ناقصة أو تقييد زيادة عن اللازم."},
+
+{id:14,text:"Which InfoSec principle is achieved through hashing?",opts:["Confidentiality","Integrity","Availability","Non-repudiation"],ans:1,level:"medium",topic:"infosec",exp:"Hashing verifies that data hasn't been altered — it maintains Integrity.",trick:"تريكة: Hashing → Integrity. SHA-256 يتحقق إن البيانات ما اتغيرتش."},
+
+{id:15,text:"Which InfoSec principle is achieved through encryption?",opts:["Availability","Accountability","Confidentiality","Integrity"],ans:2,level:"easy",topic:"infosec",exp:"Encryption scrambles data so only authorized parties can read it — achieving Confidentiality.",trick:"تريكة: Encryption → Confidentiality. التشفير = سرية البيانات."},
+
+// ══════════════════════════════════════════════════════════
+// 2. CYBERSECURITY & CYBERCRIME
+// ══════════════════════════════════════════════════════════
+{id:16,text:"Cybersecurity is BEST defined as:",opts:["Physical protection of servers","The branch of InfoSec that handles protection of networks and data from illegal access or damage","Monitoring employee internet usage","Installing antivirus on computers"],ans:1,level:"easy",topic:"cyber",expected:true,exp:"Cybersecurity = protection of networks and data from cyber-attacks and information leakage.",trick:"تريكة: Cybersecurity = حماية الشبكات والبيانات من الهجمات الإلكترونية."},
+
+{id:17,text:"Malware is BEST defined as:",opts:["A type of firewall","Any software designed to damage, disrupt, or gain unauthorized access to systems","A network monitoring tool","A type of encryption algorithm"],ans:1,level:"easy",topic:"cyber",expected:true,exp:"Malware (malicious software) = designed to damage, disrupt, or gain unauthorized system access.",trick:"تريكة: Malware = برنامج خبيث. Viruses + Worms + Trojans = Malware."},
+
+{id:18,text:"Phishing is classified as:",opts:["A type of malware","A social engineering attack tricking people into revealing sensitive information","A network scanning technique","A type of encryption"],ans:1,level:"easy",topic:"cyber",expected:true,exp:"Phishing = social engineering attack using fake emails, websites, or SMS to steal credentials.",trick:"تريكة: Phishing = خدعة. Social engineering يخلي الناس تفصح عن بياناتها طوعاً."},
+
+{id:19,text:"Ransomware differs from other malware primarily because:",opts:["It spreads via USB drives","It encrypts victim's files and demands payment to restore access","It monitors keyboard input","It steals login credentials silently"],ans:1,level:"medium",topic:"cyber",expected:true,exp:"Ransomware = encrypts files then demands ransom (usually in Bitcoin) to decrypt them.",trick:"تريكة: Ransomware = فدية. بيشفر ملفاتك وبيطلب فلوس عشان ترجعلك."},
+
+{id:20,text:"A DoS attack differs from a DDoS attack in that:",opts:["DoS uses encryption; DDoS does not","DoS comes from a single source; DDoS uses multiple distributed sources","DoS targets files; DDoS targets networks","DoS is legal; DDoS is illegal"],ans:1,level:"medium",topic:"cyber",expected:true,exp:"DoS = single source. DDoS = Distributed Denial of Service from many sources simultaneously.",trick:"تريكة: DoS = واحد. DDoS = الكثيرين. D = Distributed."},
+
+{id:21,text:"An insider threat originates from:",opts:["Hackers outside the country","Employees, contractors, or partners within the organization who misuse their access","Automated malware programs","Unknown IP addresses"],ans:1,level:"easy",topic:"cyber",exp:"Insider threats come from people WITH authorized access who misuse it.",trick:"تريكة: Insider threat = الخطر من الداخل. موظف أو متعاقد أو شريك."},
+
+{id:22,text:"WannaCry (2017) was an example of:",opts:["A phishing attack","A DoS attack","A ransomware attack exploiting a Windows vulnerability","An insider threat"],ans:2,level:"medium",topic:"cyber",expected:true,exp:"WannaCry (2017) = ransomware that spread globally exploiting a Windows vulnerability, infecting 150+ countries.",trick:"تريكة: WannaCry = 2017 + Ransomware + Windows vulnerability + 150 countries."},
+
+{id:23,text:"The Target breach (2013) is famous because attackers gained access through:",opts:["A phishing email to Target employees","A third-party HVAC contractor's credentials","Direct hacking of Target servers","An insider employee"],ans:1,level:"hard",topic:"cyber",expected:true,exp:"Target 2013: Hackers accessed Target's network via a third-party HVAC contractor, stealing 40M+ credit card numbers.",trick:"تريكة: Target 2013 = Third-party vendor (HVAC contractor) = supply chain risk!"},
+
+{id:24,text:"Cyber Stalking involves:",opts:["Breaking encryption algorithms","Harassing or threatening someone using the internet as a medium","Installing unauthorized software","Scanning network ports"],ans:1,level:"easy",topic:"cyber",exp:"Cyber stalking = harassing/threatening via internet — defamation, false accusations, monitoring.",trick:"تريكة: Cyber Stalking = مضايقة وتهديد عبر الإنترنت."},
+
+{id:25,text:"Cross-Site Scripting (XSS) involves:",opts:["Flooding a server with traffic","Injecting malicious client-side scripts into a trusted website","Stealing encryption keys","Monitoring network packets"],ans:1,level:"hard",topic:"cyber",exp:"XSS = injecting malicious scripts into trusted websites. Browser executes the script and attacker gets cookies/sensitive info.",trick:"تريكة: XSS = code injection في websites موثوقة."},
+
+{id:26,text:"Spyware is characterized by:",opts:["Encrypting user files for ransom","Gathering personal information without permission and sending it to third parties","Flooding inboxes with unwanted emails","Denying access to websites"],ans:1,level:"medium",topic:"cyber",expected:true,exp:"Spyware = secretly gathers personal information and sends it to third parties without consent.",trick:"تريكة: Spyware = تجسس. بيجمع معلوماتك من غير ما تعرف."},
+
+{id:27,text:"What are the 4 main types of spyware?",opts:["Viruses, worms, trojans, ransomware","System monitors, Trojans, adware, and tracking cookies","Phishing, DoS, XSS, SQL injection","Keyloggers, rootkits, botnets, worms"],ans:1,level:"medium",topic:"cyber",exp:"The 4 main spyware types: system monitors, Trojans, adware, and tracking cookies.",trick:"تريكة: Spyware types = System monitors + Trojans + Adware + Tracking cookies."},
+
+{id:28,text:"Keylogging (keystroke logging) is used by attackers to:",opts:["Encrypt network traffic","Record every key pressed on the keyboard to steal confidential information","Monitor system performance","Delete system files"],ans:1,level:"easy",topic:"cyber",expected:true,exp:"Keylogging = records every keystroke to capture passwords, credit card numbers, and other sensitive data.",trick:"تريكة: Keylogging = تسجيل كل ضغطة على الكيبورد."},
+
+{id:29,text:"Malvertising is:",opts:["Legal online advertising","Use of online advertising to spread malware — injecting malicious code into ad networks","Blocking pop-up ads","Email spam campaigns"],ans:1,level:"medium",topic:"cyber",exp:"Malvertising = malicious advertising — cybercriminals inject malware into legitimate ad networks.",trick:"تريكة: Malvertising = Malicious + Advertising. إعلانات بتنشر malware."},
+
+{id:30,text:"A Trojan horse differs from a virus because:",opts:["It replicates itself automatically","It conceals itself as a normal file to trick you into installing malware — doesn't self-replicate","It only targets emails","It blocks network traffic"],ans:1,level:"medium",topic:"cyber",expected:true,exp:"Trojan = disguises as legitimate file. Unlike viruses, Trojans don't self-replicate — they need user action to install.",trick:"تريکة: Trojan = تنكر. بيتظاهر إنه ملف عادي. مش بيتضاعف من نفسه."},
+
+{id:31,text:"A Zero-Day virus is dangerous because:",opts:["It uses very large file sizes","It appears when cybercriminals discover an unknown flaw in software — no patch exists yet","It requires physical access to the computer","It only targets mobile devices"],ans:1,level:"hard",topic:"cyber",expected:true,exp:"Zero-Day = exploits unknown vulnerability before developers can patch it. No defense exists at time of attack.",trick:"تريكة: Zero-Day = ثغرة مش متعرفة بعد = مفيش تصحيح ليها."},
+
+{id:32,text:"Cyber Squatting is:",opts:["Hacking into websites and defacing them","Reserving domain names of someone else's trademark with intent to sell at higher price","Stealing credit card data","Flooding websites with traffic"],ans:1,level:"medium",topic:"cyber",exp:"Cyber squatting = registering someone else's trademark as a domain name to sell it back at inflated price.",trick:"تريكة: Cyber Squatting = حجز domain باسم علامة تجارية للبيع بسعر أعلى."},
+
+{id:33,text:"Web Jacking involves:",opts:["Stealing user passwords","Hackers gaining access to a website and blocking or modifying it for political/social goals","Intercepting network packets","Creating fake websites"],ans:1,level:"medium",topic:"cyber",exp:"Web jacking = gaining unauthorized access to a website and altering/blocking it for political, economic, or social purposes.",trick:"تريكة: Web Jacking = خطف موقع واستخدامه لأغراض سياسية أو اجتماعية."},
+
+{id:34,text:"Which defense directly addresses phishing attacks?",opts:["Firewalls","Encryption","User training on recognizing phishing","Physical barriers"],ans:2,level:"easy",topic:"cyber",exp:"Training = educating users to recognize phishing emails, suspicious links, and social engineering tactics.",trick:"تريكة: Phishing = social engineering → يحتاج Training للتعرف عليه."},
+
+{id:35,text:"Which of the following is TRUE about using public Wi-Fi?",opts:["It is completely safe if the website uses HTTPS","Attackers can use wireless sniffers to steal credentials; use VPN for protection","Public Wi-Fi is only dangerous for admin accounts","Wi-Fi encryption prevents all attacks"],ans:1,level:"medium",topic:"cyber",exp:"Public Wi-Fi = risky. Wireless sniffers can intercept credentials. VPN creates encrypted tunnel for safety.",trick:"تريكة: Public Wi-Fi = خطر. استخدم VPN. مش آمن حتى لو HTTPS."},
+
+{id:36,text:"Spamming is best described as:",opts:["Injecting malicious scripts","Sending unwanted and commercial bulk messages over the internet","Monitoring network traffic","Encrypting email attachments"],ans:1,level:"easy",topic:"cyber",exp:"Spam = sending unsolicited bulk commercial messages over email, messaging apps, forums, social media.",trick:"تريكة: Spam = بريد غير مرغوب وتجاري بكميات كبيرة."},
+
+{id:37,text:"An Exploit in cybersecurity is:",opts:["A type of firewall rule","A piece of software or data that takes advantage of a bug or vulnerability for malicious purposes","A legitimate software update","A type of password policy"],ans:1,level:"medium",topic:"cyber",exp:"Exploit = code/data that leverages a vulnerability to cause unintended behavior in software or hardware.",trick:"تريكة: Exploit = استغلال ثغرة أمنية."},
+
+{id:38,text:"The BEST way to protect against exploits is:",opts:["Use complex passwords","Keep your software always updated (patching)","Install more RAM","Use private browsing"],ans:1,level:"easy",topic:"cyber",exp:"Patching = updating software to fix known vulnerabilities before they can be exploited.",trick:"تريكة: Exploit protection = Software updates/patching. ابقَ محدّث دايماً."},
+
+{id:39,text:"Social engineering relies primarily on:",opts:["Technical vulnerabilities in software","Psychological manipulation to trick people into revealing confidential information","Network packet injection","Brute force password attacks"],ans:1,level:"medium",topic:"cyber",expected:true,exp:"Social engineering = psychological manipulation — lies, impersonation, tricks, bribes, blackmail, threats.",trick:"تريكة: Social Engineering = التلاعب النفسي. مش تقني. بيخدع البشر مش الأنظمة."},
+
+{id:40,text:"Drive-by download is:",opts:["Intentionally downloading security tools","Downloading a virus by visiting a malicious website — often without the user knowing","Installing software via USB","Backing up files to cloud storage"],ans:1,level:"medium",topic:"cyber",exp:"Drive-by download = malware automatically downloaded when visiting a malicious/compromised website, often without user awareness.",trick:"تريكة: Drive-by download = بيتحمل لوحده لما تزور موقع ملغوم."},
+
+{id:41,text:"Which of the following statements about Structure Attacks is correct?",opts:["Performed by inexperienced beginners testing random tools","Performed by highly skilled people with clear motives, access to sophisticated tools, undetected by IDS","Performed by employees within the organization","Prevented only by physical security measures"],ans:1,level:"hard",topic:"cyber",exp:"Structured attacks = sophisticated, experienced attackers with clear goals, advanced tools, can evade IDS.",trick:"تريكة: Structure Attack = محترفين + أهداف واضحة + أدوات متطورة + يتجنبون الـ IDS."},
+
+{id:42,text:"Which step is MOST important to protect against phishing emails?",opts:["Enable BitLocker","Check the link before clicking it using tools like VirusTotal","Increase RAM","Use a stronger processor"],ans:1,level:"easy",topic:"cyber",exp:"Checking links before clicking is the #1 defense against phishing — use VirusTotal or Redirect Detective.",trick:"تريكة: Phishing = links. تحقق من الرابط قبل ما تضغط."},
+
+// ══════════════════════════════════════════════════════════
+// 3. CRYPTOGRAPHY
+// ══════════════════════════════════════════════════════════
+{id:43,text:"Cryptography is BEST defined as:",opts:["The study of computer networks","The art and science of keeping messages secure — design of secure algorithms and systems","The process of hacking encrypted systems","A method of physical data storage"],ans:1,level:"easy",topic:"crypto",expected:true,exp:"Cryptography = designing and using methods to secure communications from adversaries.",trick:"تريكة: Cryptography = فن وعلم تأمين الرسائل."},
+
+{id:44,text:"The process of converting plaintext into ciphertext is called:",opts:["Decryption","Hashing","Encryption","Compression"],ans:2,level:"easy",topic:"crypto",expected:true,exp:"Encryption = converting readable plaintext into unreadable ciphertext using a key.",trick:"تريكة: Plaintext → Encryption → Ciphertext. عكسه Decryption."},
+
+{id:45,text:"Cryptanalysis is BEST described as:",opts:["Designing secure encryption systems","Breaking or attacking cryptographic systems — cryptanalysts are also called attackers","Generating random encryption keys","Applying encryption to network traffic"],ans:1,level:"medium",topic:"crypto",exp:"Cryptanalysis = the science of breaking or attacking cryptographic systems. Cryptanalysts = attackers.",trick:"تريكة: Cryptanalysis = كسر التشفير. Cryptography = بناء التشفير."},
+
+{id:46,text:"A cipher is BEST described as:",opts:["A type of network protocol","An algorithm for performing encryption or decryption","A database encryption tool","A type of firewall"],ans:1,level:"easy",topic:"crypto",exp:"A cipher = algorithm defining the specific steps to encrypt and decrypt data.",trick:"تريكة: Cipher = الخوارزمية اللي بتنفذ التشفير أو فك التشفير."},
+
+{id:47,text:"What are the 4 main goals of cryptography?",opts:["Speed, Size, Portability, Compatibility","Confidentiality, Integrity, Authentication, Non-repudiation","Availability, Accountability, Authenticity, Authorization","Compression, Decompression, Hashing, Signing"],ans:1,level:"medium",topic:"crypto",expected:true,exp:"Cryptography provides: Confidentiality (secrecy), Integrity (anti-tampering), Authentication (verify identity), Non-repudiation (deny sending).",trick:"تريكة: Crypto goals = CIA + Non-repudiation."},
+
+{id:48,text:"The Caesar Cipher is named after Julius Caesar who used it with a shift of:",opts:["1","2","3","5"],ans:2,level:"easy",topic:"crypto",exp:"Caesar cipher uses a shift of 3 letters to protect military messages — the original simple substitution cipher.",trick:"تريكة: Caesar Cipher = shift of 3. Julius Caesar اخترعه لحماية رسائله العسكرية."},
+
+{id:49,text:"Symmetric Key Cryptography uses:",opts:["Two different keys — one public, one private","A single shared key for both encryption and decryption","No key at all","A hash function instead of a key"],ans:1,level:"easy",topic:"crypto",expected:true,exp:"Symmetric = same key to encrypt AND decrypt. Both sender and receiver share the same secret key.",trick:"تريكة: Symmetric = مفتاح واحد مشترك. عكسه Asymmetric = مفتاحين."},
+
+{id:50,text:"The main problem with Symmetric Key Cryptography is:",opts:["It is too slow for large data","Key distribution — how to securely share the key with the other party","It doesn't support authentication","It produces very large ciphertext"],ans:1,level:"medium",topic:"crypto",expected:true,exp:"Key distribution problem = how do you share the secret key securely? If intercepted, entire system is compromised.",trick:"تريكة: Symmetric weakness = Key distribution problem. إزاي توصّل المفتاح بأمان؟"},
+
+{id:51,text:"DES (Data Encryption Standard) uses a key size of:",opts:["128 bits","192 bits","56 bits","256 bits"],ans:2,level:"medium",topic:"crypto",expected:true,exp:"DES uses a 56-bit key on 64-bit blocks. 56-bit is now considered too small for modern computing power.",trick:"تريكة: DES = 56-bit key. ضعيف بمقاييس اليوم."},
+
+{id:52,text:"AES (Advanced Encryption Standard) was adopted by the US government and supports key sizes of:",opts:["56, 112, 168 bits","64, 128, 192 bits","128, 192, 256 bits","256, 512, 1024 bits"],ans:2,level:"medium",topic:"crypto",expected:true,exp:"AES supports 128, 192, and 256-bit key sizes with 128-bit block size. Replaced DES as US government standard.",trick:"تريكة: AES = 128, 192, 256 bit keys. الثلاثة دول. Block size = 128-bit دايماً."},
+
+{id:53,text:"Asymmetric Key Cryptography (Public Key Cryptography) uses:",opts:["One shared secret key","Two mathematically related keys: a public key (encrypt) and a private key (decrypt)","No keys","A password instead of a key"],ans:1,level:"easy",topic:"crypto",expected:true,exp:"Asymmetric = public key (share freely) to encrypt + private key (keep secret) to decrypt.",trick:"تريكة: Asymmetric = Public key encrypts, Private key decrypts. عكسهم للـ Digital Signature."},
+
+{id:54,text:"RSA was developed by:",opts:["National Security Agency in 1994","Rivest, Shamir, and Adleman in 1977","IBM in 1985","NIST in 2001"],ans:1,level:"medium",topic:"crypto",exp:"RSA = Rivest, Shamir, Adleman (1977). First algorithm suitable for both signing AND encryption.",trick:"تريكة: RSA = Rivest + Shamir + Adleman, 1977. أول خوارزمية للتوقيع والتشفير معاً."},
+
+{id:55,text:"A cryptographic hash function produces:",opts:["Variable-length output depending on input size","A fixed-size bit string (hash value) regardless of input size","Reversible encrypted output","A digital certificate"],ans:1,level:"medium",topic:"crypto",expected:true,exp:"Hash function = takes ANY input size → produces FIXED-size output. One-way: cannot reverse the hash.",trick:"تريكة: Hash = fixed size output always. Any input → same output length. One-way!"},
+
+{id:56,text:"Which of the following is a property of an ideal hash function?",opts:["It is reversible","Two different messages can have the same hash","It is infeasible to find two different messages with the same hash (collision resistance)","The hash changes predictably with input changes"],ans:2,level:"hard",topic:"crypto",expected:true,exp:"Collision resistance = infeasible to find two inputs with same hash. Also: pre-image resistance, avalanche effect, deterministic.",trick:"تريكة: Hash = Collision Resistance + Pre-image Resistance + Avalanche Effect + Deterministic."},
+
+{id:57,text:"SHA-256 is considered:",opts:["Broken and deprecated","Deprecated but usable","Secure and widely used","Only suitable for passwords"],ans:2,level:"medium",topic:"crypto",exp:"SHA-256 = 256-bit hash, secure, widely used in digital signatures, blockchain, SSL/TLS.",trick:"تريكة: SHA-256 = Secure ✓. MD5 = Broken. SHA-1 = Deprecated."},
+
+{id:58,text:"MD5 hash algorithm is:",opts:["The most secure hash function","Broken — vulnerable to collision attacks","Still the US government standard","Suitable for critical security applications"],ans:1,level:"medium",topic:"crypto",expected:true,exp:"MD5 = 128-bit hash, broken — feasible to find collisions. Should not be used for security.",trick:"تريكة: MD5 = Broken. SHA-1 = Deprecated. SHA-256/SHA-3 = Secure ✓."},
+
+{id:59,text:"Digital signatures provide which THREE guarantees?",opts:["Speed, size, and portability","Authentication (identity), Integrity (not modified), Non-repudiation (cannot deny)","Confidentiality, Availability, and Accountability","Encryption, decryption, and compression"],ans:1,level:"medium",topic:"crypto",expected:true,exp:"Digital signatures guarantee: Authentication (signer's identity), Integrity (document unchanged), Non-repudiation (cannot deny).",trick:"تريكة: Digital Signature = Authentication + Integrity + Non-repudiation. مش Confidentiality!"},
+
+{id:60,text:"In asymmetric cryptography, to send a digitally signed message, you:",opts:["Encrypt with the recipient's public key","Sign with YOUR private key (receiver verifies with your public key)","Sign with the recipient's private key","Encrypt with your own public key"],ans:1,level:"hard",topic:"crypto",expected:true,exp:"Digital signature = sign with YOUR private key → recipient verifies with YOUR public key. Proves it came from you.",trick:"تريكة: Digital Signature = Private key SIGNS. Public key VERIFIES. عكس التشفير العادي!"},
+
+{id:61,text:"Triple DES (3DES) was developed primarily to:",opts:["Replace AES with a smaller key","Address the weaknesses of DES using a longer effective key length","Create a faster encryption standard","Implement public key cryptography"],ans:1,level:"medium",topic:"crypto",exp:"3DES applies DES algorithm three times — longer key eliminates shortcut attacks against DES's 56-bit key.",trick:"تريكة: 3DES = DES × 3 عشان يقوّي الـ DES الضعيف."},
+
+{id:62,text:"A Block Cipher encrypts data:",opts:["One bit at a time using a keystream","In fixed-size blocks (typically 128 bits) at a time","Using quantum algorithms","Without requiring a key"],ans:1,level:"medium",topic:"crypto",exp:"Block cipher = encrypts fixed-size blocks (AES uses 128-bit blocks). Contrast with stream ciphers that encrypt bit by bit.",trick:"تريكة: Block Cipher = كتل ثابتة. Stream Cipher = bit by bit."},
+
+{id:63,text:"Which AES mode is considered insecure and should NOT be used?",opts:["GCM","CBC","ECB (Electronic Codebook)","CTR"],ans:2,level:"hard",topic:"crypto",exp:"ECB mode encrypts identical plaintext blocks to identical ciphertext blocks — patterns visible. Never use ECB.",trick:"تريكة: ECB = Electronic Codebook = Insecure. نفس الـ block input يدي نفس الـ output."},
+
+{id:64,text:"The Avalanche Effect in hash functions means:",opts:["Hash output increases as input grows","A small change in input causes a drastically different hash output","Hashes are always the same size as input","Hash collisions are impossible"],ans:1,level:"hard",topic:"crypto",exp:"Avalanche effect = changing even 1 bit of input completely changes the hash output — prevents pattern detection.",trick:"تريكة: Avalanche Effect = تغيير بسيط في الـ input → تغيير كبير جداً في الـ output."},
+
+{id:65,text:"OAuth 2.0 is BEST described as:",opts:["A symmetric encryption algorithm","An industry-standard protocol for authorization — allows apps to access resources without seeing the user's password","A hashing algorithm for passwords","A type of digital certificate"],ans:1,level:"hard",topic:"crypto",exp:"OAuth 2.0 = authorization protocol. Like a 'digital valet key' — limited access without sharing your main password.",trick:"تريكة: OAuth 2.0 = Authorization protocol. مش authentication. زي مفتاح الـ valet."},
+
+// ══════════════════════════════════════════════════════════
+// 4. PHYSICAL SECURITY
+// ══════════════════════════════════════════════════════════
+{id:66,text:"Physical security in InfoSec is BEST defined as:",opts:["Protecting only software from cyber attacks","Protection of computers, software, networks, and data from physical events including fire, theft, and natural disasters","Monitoring network traffic physically","Encrypting physical storage devices"],ans:1,level:"easy",topic:"physical",expected:true,exp:"Physical security = protecting against physical threats: fire, floods, theft, robbery, natural disasters.",trick:"تريكة: Physical security = حماية جسدية ضد أحداث مادية."},
+
+{id:67,text:"Physical security is considered:",opts:["The last line of defense","The first line of defense for information security","Only applicable to military installations","Less important than cybersecurity"],ans:1,level:"easy",topic:"physical",expected:true,exp:"Physical security = first line of defense. If an attacker has physical access, all other security controls may fail.",trick:"تريكة: Physical security = أول خط دفاع. بدونه كل باقي الأمن ممكن يسقط."},
+
+{id:68,text:"The THREE systems that make up physical security are:",opts:["Antivirus, firewall, and IDS","Access control systems, video monitoring systems, and alarm systems","Passwords, encryption, and biometrics","Physical barriers, locks, and cameras"],ans:1,level:"easy",topic:"physical",expected:true,exp:"Physical security systems: 1) Access control, 2) Video monitoring (CCTV/IP), 3) Alarm systems.",trick:"تريكة: Physical security systems = Access control + Video monitoring + Alarm systems."},
+
+{id:69,text:"Biometrics is BEST described as:",opts:["A type of password","An automated method of establishing identity based on physical or behavioral characteristics that are difficult to forge","A network scanning technique","A type of encryption algorithm"],ans:1,level:"easy",topic:"physical",expected:true,exp:"Biometrics = automated identity verification using unique physical (fingerprint, iris) or behavioral (voice, signature) characteristics.",trick:"تريكة: Biometrics = هويتك الجسدية. صعب يتزوّر."},
+
+{id:70,text:"Which biometric measure is ranked MOST secure?",opts:["Fingerprint","Voice pattern","Iris pattern","Signature"],ans:2,level:"medium",topic:"physical",expected:true,exp:"Security ranking (most to least): Iris > Fingerprint > Handprint > Voice > Keystroke > Signature.",trick:"تريكة: الأكثر أماناً = Iris pattern (قزحية العين). الأقل = Signature."},
+
+{id:71,text:"Biometric identification method 'something you are' refers to:",opts:["Password or PIN","Smart card","Fingerprint or iris scan","Security token"],ans:2,level:"easy",topic:"physical",expected:true,exp:"'Something you are' = biometrics — physical characteristics like fingerprints, iris, face, voice.",trick:"تريكة: Something you ARE = Biometrics. Something you KNOW = Password. Something you HAVE = Smart card."},
+
+{id:72,text:"Physical barriers in security should ideally use:",opts:["A single strong barrier","At least three barriers: perimeter, computer center entrance, computer room entrance","Only electronic locks","CCTV cameras without physical locks"],ans:1,level:"medium",topic:"physical",exp:"Three-barrier concept: 1) Outer perimeter, 2) Computer center entrance, 3) Computer room — each monitored and alarmed.",trick:"تريكة: Physical barriers = 3 طبقات. Perimeter → Computer center → Computer room."},
+
+{id:73,text:"CCTV stands for:",opts:["Computer Controlled Television Technology","Closed Circuit Television","Cyber Crime Technical Tool","Central Control Tracking Video"],ans:1,level:"easy",topic:"physical",exp:"CCTV = Closed Circuit Television — camera connected by cable to a DVR (Digital Video Recorder).",trick:"تريكة: CCTV = Closed Circuit Television. كاميرا متصلة بـ DVR بكابل."},
+
+{id:74,text:"The Smart Scan lock (by QuickSet) operates by:",opts:["Entering a PIN code","Storing fingerprints of authorized users and using radio waves to scan fingerprints","Swiping a smart card","Voice recognition"],ans:1,level:"medium",topic:"physical",exp:"Smart Scan = battery-powered, no wiring, stores authorized fingerprints, uses radio waves for scanning.",trick:"تريكة: Smart Scan = fingerprints + radio waves. Battery-powered. No wiring."},
+
+{id:75,text:"Which type of physical threat comes from earthquakes, floods, and fires?",opts:["Political/human events","Utility system failures","Natural/environmental disasters","Insider threats"],ans:2,level:"easy",topic:"physical",exp:"Natural/environmental disasters = earthquakes, floods, storms, fires — all pose physical threats to facilities.",trick:"تريكة: Natural disasters = الكوارث الطبيعية. Earthquakes + Floods + Fires."},
+
+// ══════════════════════════════════════════════════════════
+// 5. STEGANOGRAPHY & WATERMARKING
+// ══════════════════════════════════════════════════════════
+{id:76,text:"Steganography differs from Cryptography in that:",opts:["Steganography encrypts messages; cryptography hides their existence","Steganography hides the EXISTENCE of a message; cryptography hides the MEANING","Both are identical methods","Steganography is illegal; cryptography is legal"],ans:1,level:"medium",topic:"stego",expected:true,exp:"Steganography = hides that a message exists. Cryptography = hides what the message means (but attacker knows message exists).",trick:"تريكة: Stego = يخبّي إن في رسالة أصلاً. Crypto = يخبّي معنى الرسالة."},
+
+{id:77,text:"The carrier in steganography can be:",opts:["Only text files","Only images","Text, image, video, audio, or any digital media","Only encrypted files"],ans:2,level:"easy",topic:"stego",expected:true,exp:"Cover medium (carrier) can be any digital media: text, image, audio, video, etc.",trick:"تريكة: Carrier = أي وسيط رقمي. Text + Image + Audio + Video."},
+
+{id:78,text:"LSB (Least Significant Bit) steganography is MOST popular for:",opts:["Audio files","Text documents","Image files","Network packets"],ans:2,level:"medium",topic:"stego",expected:true,exp:"LSB in images = replacing the least significant bit of each pixel's color channel. Changes color by 1 — invisible to humans.",trick:"تريكة: LSB + Images = أكتر طريقة مستخدمة. تغيير 1 bit في الـ pixel = مش مرئي."},
+
+{id:79,text:"In LSB steganography with a 1MP image, approximately how much data can be hidden?",opts:["1 MB","100 KB","375 KB","10 MB"],ans:2,level:"hard",topic:"stego",exp:"1MP image = 1M pixels × 3 channels (RGB) × 1 bit each ÷ 8 = approximately 375 KB of hidden data.",trick:"تريكة: 1MP image → ~375 KB hidden data. 3 bits per pixel (RGB), 1 bit per channel."},
+
+{id:80,text:"The Stego key in steganography is:",opts:["The encryption key for the ciphertext","Secret information needed to extract the embedded message from the stego-medium","The algorithm used for hiding","The carrier file itself"],ans:1,level:"medium",topic:"stego",exp:"Stego key = secret password/information required to extract hidden message from the stego object.",trick:"تريكة: Stego key = المفتاح اللي بيفك الرسالة المخبّية."},
+
+{id:81,text:"The first book about steganography was published in:",opts:["1985","Ancient Greece","1499 (Steganographia)","World War II"],ans:2,level:"medium",topic:"stego",exp:"Steganographia = first book on steganography, published in 1499. Steganography was also used in Ancient Greece and WWII.",trick:"تريكة: Steganographia = 1499 = أول كتاب عن الـ steganography."},
+
+{id:82,text:"Digital watermarking is used primarily for:",opts:["Encrypting sensitive files","Copyright protection of intellectual property in digital format","Hiding malicious code","Compressing large files"],ans:1,level:"easy",topic:"stego",expected:true,exp:"Digital watermarks = protect intellectual property rights (IPR) by embedding an identification code in digital media.",trick:"تريكة: Digital Watermark = حماية حقوق الملكية الفكرية."},
+
+{id:83,text:"A Fragile watermark is characterized by:",opts:["Surviving all manipulations of content","Breaking down easily when the content is modified","Being visible to the naked eye","Only working with images"],ans:1,level:"medium",topic:"stego",exp:"Fragile watermarks break when content is modified — used to detect tampering. Robust watermarks survive manipulations.",trick:"تريكة: Fragile = بتنكسر لو الملف اتعدّل. Robust = بتصمد."},
+
+{id:84,text:"Paper watermarks are used primarily in:",opts:["Computer files","Currency, banknotes, and passports","Digital images","Email messages"],ans:1,level:"easy",topic:"stego",exp:"Paper watermarks = physical marks in paper (currency, banknotes, passports) to prevent forgery.",trick:"تريكة: Paper watermark = العملات + جوازات السفر. لمنع التزوير."},
+
+{id:85,text:"Lossy formats like JPEG destroy LSB steganography because:",opts:["They compress files losslessly","Their compression algorithm alters pixel values, destroying the hidden LSB data","They don't support RGB colors","They encrypt the file automatically"],ans:1,level:"hard",topic:"stego",exp:"JPEG compression is lossy — it approximates pixel values, destroying the 1-bit changes made by LSB steganography.",trick:"تريكة: JPEG = lossy compression = بيكسر الـ LSB data. استخدم PNG (lossless) للـ steganography."},
+
+{id:86,text:"Fingerprinting in digital media identifies content by:",opts:["Embedding a visible logo","Analyzing inherent unique properties of the media — a very small data file, format-independent","Encrypting the media file","Adding copyright text to the file"],ans:1,level:"hard",topic:"stego",exp:"Digital fingerprint = analyzes inherent unique properties (audio waveforms, video characteristics). Small data file, resolution-independent.",trick:"تريكة: Fingerprinting = خصائص فريدة موجودة في الملف أصلاً. مش بيضيف حاجة."},
+
+// ══════════════════════════════════════════════════════════
+// 6. AUTHENTICATION & ACCESS CONTROL
+// ══════════════════════════════════════════════════════════
+{id:87,text:"Authentication answers the question:",opts:["What are you allowed to do?","Are you who you say you are?","How much data can you access?","When can you access the system?"],ans:1,level:"easy",topic:"auth",expected:true,exp:"Authentication = verifying identity. 'Are you who you say you are?' It happens BEFORE authorization.",trick:"تريكة: Authentication = 'إنت مين؟' Authorization = 'إنت تعمل إيه؟'"},
+
+{id:88,text:"Authorization answers the question:",opts:["Are you who you say you are?","What are you allowed to do?","When was your account created?","What is your IP address?"],ans:1,level:"easy",topic:"auth",expected:true,exp:"Authorization = determines access rights after authentication. 'What are you allowed to do?'",trick:"تريكة: Authorization = 'إنت تعمل إيه؟' بعد ما Authentication ثبّت 'إنت مين؟'"},
+
+{id:89,text:"Which is the correct sequence?",opts:["Authorization → Authentication","Authentication → Authorization","Both happen simultaneously","Neither is required for system access"],ans:1,level:"easy",topic:"auth",expected:true,exp:"Authentication ALWAYS comes first (verify identity), then Authorization (grant permissions).",trick:"تريكة: الترتيب دايماً: AuthN (Authentication) ثم AuthZ (Authorization)."},
+
+{id:90,text:"MFA (Multi-Factor Authentication) requires:",opts:["Only a username and password","Two or more of: something you know, something you have, something you are","Only biometric identification","A physical security token only"],ans:1,level:"easy",topic:"auth",expected:true,exp:"MFA = at least 2 of 3 factors: something you KNOW (password) + HAVE (phone/token) + ARE (biometric).",trick:"تريكة: MFA = 2+ factors من Know + Have + Are. الـ SMS OTP = أضعف نوع MFA."},
+
+{id:91,text:"SMS OTP compared to app-based TOTP (Google Authenticator) is:",opts:["More secure","Equally secure","The weakest form of MFA — prefer TOTP or hardware keys","Only suitable for admin accounts"],ans:2,level:"medium",topic:"auth",expected:true,exp:"SMS OTP is the weakest MFA form — vulnerable to SIM swapping. App-based TOTP or hardware keys (FIDO2/YubiKey) are much stronger.",trick:"تريكة: SMS OTP = أضعف MFA. Hardware key (YubiKey) = الأقوى."},
+
+{id:92,text:"RBAC (Role-Based Access Control) grants access based on:",opts:["User's physical location","User's role (e.g., admin, editor, viewer)","Time of day","IP address"],ans:1,level:"easy",topic:"auth",expected:true,exp:"RBAC = access based on the user's assigned role. Most widely used access control model in enterprise.",trick:"تريكة: RBAC = Access by Role. الدور بيحدد الوصول. الأشيع في الشركات."},
+
+{id:93,text:"MAC (Mandatory Access Control) is MOST commonly used in:",opts:["Small businesses","Public websites","Military and government systems where access is enforced by the system, not users","Social media platforms"],ans:2,level:"medium",topic:"auth",expected:true,exp:"MAC = system enforces access based on security labels. Used in military/government — strict, highly secure.",trick:"تريكة: MAC = عسكري + حكومي. النظام هو اللي بيقرر الوصول مش المستخدم."},
+
+{id:94,text:"DAC (Discretionary Access Control) is characterized by:",opts:["System-enforced rigid policies","Resource owners control access permissions — more flexible but less secure","Access based on user roles only","No access control at all"],ans:1,level:"medium",topic:"auth",exp:"DAC = data owners decide access rights. More flexible but harder to manage at scale and less secure.",trick:"تريكة: DAC = صاحب البيانات بيقرر مين يوصلها. Flexible لكن أقل أماناً."},
+
+{id:95,text:"ABAC (Attribute-Based Access Control) bases decisions on:",opts:["User role only","Fine-grained policies based on user, resource, and context attributes (time, device, location)","System security labels","Password strength"],ans:1,level:"hard",topic:"auth",exp:"ABAC = most flexible access model. Decisions based on multiple attributes: user role + resource type + time + location + device.",trick:"تريكة: ABAC = Attribute-Based. أكثر مرونة من RBAC. يحسب كل شيء."},
+
+{id:96,text:"The Twitter Hack (2020) succeeded because attackers:",opts:["Used a Zero-Day virus","Used social engineering to access internal admin tools","Deployed ransomware","Exploited a SQL injection vulnerability"],ans:1,level:"medium",topic:"auth",expected:true,exp:"Twitter 2020: Attackers used social engineering on Twitter employees to gain access to internal admin tools — posted from Obama, Elon Musk accounts.",trick:"تريكة: Twitter 2020 = Social Engineering → Internal tools → High-profile accounts."},
+
+{id:97,text:"Credential Stuffing attacks use:",opts:["Random passwords tried against one account","Breached username/password pairs from data leaks tried on multiple services","Physical keyloggers","Social engineering phone calls"],ans:1,level:"hard",topic:"auth",exp:"Credential stuffing = using leaked credentials from one breach to log into other services (relying on password reuse).",trick:"تريكة: Credential Stuffing = يستخدم leaked passwords من خرق تاني. يعتمد على إعادة استخدام كلمات المرور."},
+
+{id:98,text:"Privilege Creep refers to:",opts:["Users using excessive computing resources","Users accumulating access rights they no longer need over time","Unauthorized users accessing admin panels","Attackers escalating privileges"],ans:1,level:"medium",topic:"auth",exp:"Privilege creep = users gradually accumulate permissions they don't need anymore — security risk if compromised.",trick:"تريكة: Privilege Creep = تراكم صلاحيات مش محتاجة. يزيد الخطر لو الحساب اتاخد."},
+
+{id:99,text:"Session Hijacking involves:",opts:["Breaking into a physical data center","Stealing or forging session tokens to impersonate authenticated users","Installing keyloggers on victim computers","Flooding a website with traffic"],ans:1,level:"hard",topic:"auth",exp:"Session hijacking = stealing/forging session tokens to take over an authenticated user's session.",trick:"تريكة: Session Hijacking = سرقة الـ session token = التنكر بشخص مسجل دخوله."},
+
+{id:100,text:"CSRF (Cross-Site Request Forgery) forces:",opts:["Downloading malware from websites","Authenticated users to execute unwanted actions via malicious sites","Password database breaches","Network packet interception"],ans:1,level:"hard",topic:"auth",exp:"CSRF = tricks an authenticated user's browser into submitting malicious requests. Prevented by CSRF tokens and SameSite cookies.",trick:"تريكة: CSRF = خداع المتصفح يرسل requests بدون علم المستخدم."},
+
+{id:101,text:"A Password Manager is recommended because:",opts:["It generates unlimited storage space","It allows using unique, strong passwords for every account without remembering them all","It encrypts your entire hard drive","It blocks all phishing attempts"],ans:1,level:"easy",topic:"auth",exp:"Password managers store unique complex passwords for each site — eliminates password reuse and remembering burdens.",trick:"تريكة: Password Manager = كلمة مرور قوية وفريدة لكل موقع بدون ما تحفظهم."},
+
+{id:102,text:"The recommended minimum password length according to best practices is:",opts:["6 characters","8 characters","12 characters","4 characters"],ans:2,level:"easy",topic:"auth",exp:"Best practice: minimum 12 characters mixing uppercase, lowercase, numbers, and symbols.",trick:"تريكة: Minimum password = 12 characters. مع uppercase + lowercase + numbers + symbols."},
+
+{id:103,text:"IAM (Identity and Access Management) key components include:",opts:["Firewall rules and antivirus","User provisioning, authentication mechanisms, password policies, and audit logging","Backup systems and encryption","Physical barriers and CCTV"],ans:1,level:"medium",topic:"auth",exp:"IAM = framework of policies and technologies: user provisioning + authentication + password policies + audit logging.",trick:"تريكة: IAM = User provisioning + Auth + Password policies + Audit logging."},
+
+{id:104,text:"ACLs (Access Control Lists) specify:",opts:["Hardware specifications","What users can do with files, directories, or network resources (read, write, execute)","Network topology","Encryption algorithms"],ans:1,level:"easy",topic:"auth",exp:"ACLs = lists specifying what operations (read, write, execute) users/systems can perform on resources.",trick:"تريكة: ACL = قائمة بيّن فيها مين يعمل إيه. Read + Write + Execute."},
+
+// ══════════════════════════════════════════════════════════
+// 7. WINDOWS SECURITY
+// ══════════════════════════════════════════════════════════
+{id:105,text:"UAC (User Account Control) primary role is:",opts:["Encrypting the hard drive","Monitoring what changes occur on the system (installing/removing apps) and requiring authorization","Managing user passwords","Scanning for viruses"],ans:1,level:"easy",topic:"windows",expected:true,exp:"UAC = monitors system changes (app installations, registry edits) and requires admin confirmation before proceeding.",trick:"تريكة: UAC = بيراقب التغييرات على النظام وبيطلب إذن Admin."},
+
+{id:106,text:"When should you NEVER click 'Yes' on a UAC prompt?",opts:["When installing trusted software","When a UAC prompt appears out of nowhere while browsing — common sign of malware","When updating Windows","When adding a network printer"],ans:1,level:"medium",topic:"windows",expected:true,exp:"Unexpected UAC prompts while browsing = likely malware running in background. Never click Yes without triggering the action yourself.",trick:"تريكة: UAC بيطلع من غير ما تعمل حاجة = ممكن malware. Never click Yes!"},
+
+{id:107,text:"The 'blue and yellow shield icon' in Windows indicates:",opts:["A system error","A file is encrypted","The action requires UAC elevation (admin permission)","A network connection issue"],ans:2,level:"easy",topic:"windows",exp:"Blue/yellow shield icon = UAC-protected action requiring admin elevation. Click triggers UAC prompt.",trick:"تريكة: Shield icon (أزرق وأصفر) = بيحتاج UAC/Admin permission."},
+
+{id:108,text:"Windows Defender Firewall Public Network profile:",opts:["Allows all inbound and outbound traffic","Is used for corporate environments","Makes your PC invisible to others — blocks all inbound connections","Allows file and printer sharing"],ans:2,level:"medium",topic:"windows",expected:true,exp:"Public profile (cafés, airports) = most restrictive. Blocks all inbound, makes PC invisible on network.",trick:"تريكة: Public Network = أكثر تقييداً. Coffee shop/Airport = hide your PC من الكل."},
+
+{id:109,text:"BitLocker Drive Encryption uses which algorithm?",opts:["RSA","DES","AES (Advanced Encryption Standard)","MD5"],ans:2,level:"easy",topic:"windows",expected:true,exp:"BitLocker uses AES algorithm to encrypt the entire drive — available on Windows Pro, Enterprise, Education.",trick:"تريكة: BitLocker = AES encryption. Full disk encryption."},
+
+{id:110,text:"TPM (Trusted Platform Module) in BitLocker:",opts:["Provides antivirus protection","Stores encryption keys securely on the motherboard chip and verifies system health at startup","Manages user passwords","Scans for network intrusions"],ans:1,level:"medium",topic:"windows",expected:true,exp:"TPM chip = stores BitLocker encryption keys, checks system health at startup, auto-unlocks if no tampering detected.",trick:"تريكة: TPM = chip على الـ motherboard. بيخزن مفاتيح BitLocker وبيتحقق إن النظام سليم."},
+
+{id:111,text:"BitLocker Recovery Key is:",opts:["The user's Windows login password","A 48-digit key that allows access when the normal unlock method fails (TPM failure, different computer)","A 6-digit PIN","The administrator's password"],ans:1,level:"medium",topic:"windows",exp:"BitLocker Recovery Key = 48-digit backup key. Required if TPM fails, motherboard replaced, or drive moved to different PC.",trick:"تريكة: Recovery Key = 48-digit. Backup لما الـ TPM يفشل أو تنقل الـ drive لجهاز تاني."},
+
+{id:112,text:"BitLocker To Go is designed for:",opts:["Encrypting the operating system drive","Encrypting removable drives like USB flash drives and external hard disks","Network drive encryption","Encrypting individual files"],ans:1,level:"easy",topic:"windows",exp:"BitLocker To Go = password-protects portable/removable drives (USB flash drives, external hard disks).",trick:"تريكة: BitLocker To Go = للـ USB drives والـ external drives."},
+
+{id:113,text:"The Windows Firewall Advanced Security interface allows:",opts:["Virus scanning","Port filtering, IP rules, and Connection Security Rules (IPsec authentication)","File encryption","User account management"],ans:1,level:"medium",topic:"windows",exp:"Advanced Security = granular control: port filtering, IP rules, connection security (IPsec), inbound/outbound rules.",trick:"تريكة: Advanced Firewall = Port filtering + IP rules + IPsec connection security."},
+
+{id:114,text:"File History in Windows 11 is used for:",opts:["Encrypting files","Scanning for malware","Backing up files and folders to an external drive","Managing user permissions"],ans:2,level:"easy",topic:"windows",exp:"File History = backs up files and folders to an external drive. Found in Settings → System → Storage.",trick:"تريكة: File History = backup للملفات على external drive."},
+
+{id:115,text:"Inbound Firewall Rules protect you from:",opts:["Data your PC sends out","External threats trying to connect to your PC from the internet","Internal application conflicts","Malware in email attachments"],ans:1,level:"easy",topic:"windows",exp:"Inbound rules = filter incoming connections. Protect from external attackers trying to access your PC.",trick:"تريكة: Inbound = الداخل إليك. Outbound = اللي بيخرج منك."},
+
+{id:116,text:"The Windows Firewall Private Network profile is typically used for:",opts:["Coffee shops and airports","Corporate domain environments","Trusted locations like home — allows file/printer sharing","Completely blocking all traffic"],ans:2,level:"medium",topic:"windows",exp:"Private profile = home/trusted networks. Allows PC to 'see' other devices like printers and file shares.",trick:"تريكة: Private = Home network. بيسمح بـ file/printer sharing."},
+
+{id:117,text:"System Image Backup in Windows 11 creates:",opts:["A backup of selected files only","A full disk image that can restore the entire system","A cloud backup","An encrypted archive of passwords"],ans:1,level:"easy",topic:"windows",exp:"System Image Backup = complete disk image (OS + applications + data). Can restore entire system from scratch.",trick:"تريكة: System Image = full disk image. Restore كل حاجة من البداية."},
+
+// ══════════════════════════════════════════════════════════
+// 8. KALI LINUX
+// ══════════════════════════════════════════════════════════
+{id:118,text:"Kali Linux is BEST described as:",opts:["A gaming operating system","A Debian-based Linux distribution designed for penetration testing, ethical hacking, and cybersecurity research","A Windows-based security suite","A cloud computing platform"],ans:1,level:"easy",topic:"kali",expected:true,exp:"Kali Linux = Debian-based OS designed for security professionals. Developed by Offensive Security.",trick:"تريكة: Kali Linux = Debian-based + penetration testing + ethical hacking. Offensive Security."},
+
+{id:119,text:"Kali Linux comes with approximately how many pre-installed tools?",opts:["50+","200+","600+","1000+"],ans:2,level:"easy",topic:"kali",expected:true,exp:"Kali Linux = 600+ pre-installed cybersecurity tools for network analysis, vulnerability assessment, forensics.",trick:"تريكة: Kali = 600+ pre-installed tools."},
+
+{id:120,text:"Nmap is used for:",opts:["Password cracking","Network discovery and security auditing — determines hosts, services, OS, and firewall types on a network","Full disk encryption","Social engineering attacks"],ans:1,level:"easy",topic:"kali",expected:true,exp:"Nmap (Network Mapper) = network discovery tool. Identifies hosts, services, OS, firewalls on a network.",trick:"تريكة: Nmap = Network Mapper. بيشوف الأجهزة والخدمات على الشبكة."},
+
+{id:121,text:"THC Hydra is primarily used for:",opts:["Network packet analysis","Brute force dictionary attacks against remote authentication services — 50+ protocols","Disk encryption","Steganography detection"],ans:1,level:"medium",topic:"kali",expected:true,exp:"Hydra = rapid brute force/dictionary attacks against remote auth services (FTP, HTTP, Telnet, SMB, etc.).",trick:"تريكة: Hydra = Brute force tool. 50+ protocols. بيكسر كلمات المرور."},
+
+{id:122,text:"Aircrack-ng is a Kali tool focused on:",opts:["Web application security","WiFi network security assessment — monitoring, attacking, testing, and cracking WEP/WPA","Database vulnerability scanning","Social media monitoring"],ans:1,level:"medium",topic:"kali",expected:true,exp:"Aircrack-ng = WiFi security suite: packet capture, de-authentication attacks, cracking WEP and WPA/WPA2 PSK.",trick:"تريكة: Aircrack-ng = WiFi security. WEP + WPA cracking."},
+
+{id:123,text:"Wireshark is described as:",opts:["A password cracking tool","An open-source packet analyzer — the world's most widely-used network protocol analyzer","A vulnerability scanner","A WiFi cracking tool"],ans:1,level:"easy",topic:"kali",expected:true,exp:"Wireshark = open-source packet analyzer for Linux. Most widely-used network protocol analyzer. Captures and inspects network traffic.",trick:"تريكة: Wireshark = network packet analyzer. أشهر أداة لتحليل بروتوكولات الشبكة."},
+
+{id:124,text:"Nessus in Kali Linux is used for:",opts:["Cracking WiFi passwords","Remote vulnerability scanning — runs 1200+ vulnerability checks without blocking vulnerabilities","Network packet capture","Web application attacks"],ans:1,level:"medium",topic:"kali",exp:"Nessus = remote scanner checking computers for security vulnerabilities. Runs 1200+ checks, throws alerts for needed patches.",trick:"تريكة: Nessus = vulnerability scanner. 1200+ checks. بيشوف الثغرات مش بيسدها."},
+
+{id:125,text:"The Kali Linux categories of tools include:",opts:["Only network scanning tools","Hardware Hacking, Information Gathering, Wireless Attacks, Vulnerability Analysis, Web Applications, Password Attacks, and more","Only password attack tools","Only forensics tools"],ans:1,level:"medium",topic:"kali",exp:"Kali has 12 tool categories including Hardware Hacking, Info Gathering, Wireless Attacks, Exploitation, Password Attacks, Forensics, etc.",trick:"تريكة: Kali = 12 categories. Hardware + Network + Web + Password + Forensics + Wireless + more."},
+
+{id:126,text:"Kali Linux is developed by:",opts:["Microsoft","Ubuntu Foundation","Offensive Security","MIT"],ans:2,level:"easy",topic:"kali",exp:"Kali Linux is developed and maintained by Offensive Security — open-source and free.",trick:"تريكة: Kali Linux = Offensive Security. Open-source."},
+
+// ══════════════════════════════════════════════════════════
+// 9. TRUE / FALSE
+// ══════════════════════════════════════════════════════════
+{id:127,text:"TRUE or FALSE: InfoSec protects sensitive data from unauthorized access, use, alteration, or destruction.",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"✅ TRUE — exact definition of Information Security.",trick:"تريكة: InfoSec definition = TRUE."},
+
+{id:128,text:"TRUE or FALSE: Integrity means prevents unauthorized disclosure.",opts:["True","False"],ans:1,level:"easy",topic:"tf",expected:true,exp:"❌ FALSE — Integrity = maintaining data accuracy. Confidentiality = preventing unauthorized disclosure.",trick:"تريكة: Integrity ≠ Confidentiality. Integrity = accuracy. Confidentiality = secrecy."},
+
+{id:129,text:"TRUE or FALSE: Phishing is a social engineering attack where attackers trick people into revealing sensitive information.",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"✅ TRUE — exact definition of phishing.",trick:"تريكة: Phishing = social engineering = TRUE."},
+
+{id:130,text:"TRUE or FALSE: Trojan spreads to instant messaging apps, texting, blogs, forums, and social media.",opts:["True","False"],ans:1,level:"medium",topic:"tf",expected:true,exp:"❌ FALSE — That description fits SPAM. Trojans disguise themselves as legitimate files to trick users into installing malware.",trick:"تريكة: Spam = spreads via messaging/blogs. Trojan = يتنكر كملف عادي. غلط."},
+
+{id:131,text:"TRUE or FALSE: Keystroke logging is a method cybercriminals use to record keys struck on the keyboard.",opts:["True","False"],ans:0,level:"easy",topic:"tf",exp:"✅ TRUE — keylogging = recording keystrokes to capture passwords and confidential information.",trick:"تريكة: Keylogging = صح."},
+
+{id:132,text:"TRUE or FALSE: Antispyware is used in detecting, blocking, and/or removing spyware attempts.",opts:["True","False"],ans:0,level:"easy",topic:"tf",exp:"✅ TRUE — exact definition of antispyware software.",trick:"تريكة: Antispyware definition = TRUE."},
+
+{id:133,text:"TRUE or FALSE: WannaCry (2017) infected computers in over 150 countries.",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"✅ TRUE — WannaCry spread globally, infecting hundreds of thousands of computers across 150+ countries.",trick:"تريكة: WannaCry + 150 countries = TRUE."},
+
+{id:134,text:"TRUE or FALSE: Physical security is the LAST line of defense for information security.",opts:["True","False"],ans:1,level:"easy",topic:"tf",expected:true,exp:"❌ FALSE — Physical security is the FIRST line of defense.",trick:"تريكة: Physical security = أول خط دفاع. مش الأخير. FALSE."},
+
+{id:135,text:"TRUE or FALSE: The three systems of physical security are access control, video monitoring, and alarm systems.",opts:["True","False"],ans:0,level:"easy",topic:"tf",exp:"✅ TRUE — exact three components listed in the lecture.",trick:"تريكة: 3 physical security systems = TRUE."},
+
+{id:136,text:"TRUE or FALSE: Iris pattern is ranked as the most secure biometric measure.",opts:["True","False"],ans:0,level:"medium",topic:"tf",expected:true,exp:"✅ TRUE — Iris > Fingerprint > Handprint > Voice > Keystroke > Signature (most to least secure).",trick:"تريكة: Iris = most secure biometric = TRUE."},
+
+{id:137,text:"TRUE or FALSE: Steganography hides the MEANING of a message.",opts:["True","False"],ans:1,level:"medium",topic:"tf",expected:true,exp:"❌ FALSE — Steganography hides the EXISTENCE of a message. Cryptography hides the MEANING.",trick:"تريكة: Stego = هides EXISTENCE. Crypto = hides MEANING. هنا عكسه = FALSE."},
+
+{id:138,text:"TRUE or FALSE: Digital Steganography with internet includes digital watermarking.",opts:["True","False"],ans:0,level:"easy",topic:"tf",exp:"✅ TRUE — Digital watermarking is a form of modern steganography used with internet technologies.",trick:"تريكة: Digital Watermarking = form of Digital Steganography = TRUE."},
+
+{id:139,text:"TRUE or FALSE: A paper watermark cannot be photocopied or scanned effectively.",opts:["True","False"],ans:0,level:"easy",topic:"tf",exp:"✅ TRUE — paper watermarks are embedded in the paper itself and don't reproduce well when photocopied or scanned.",trick:"تريكة: Paper watermark = مش قابل للنسخ الفعّال = TRUE."},
+
+{id:140,text:"TRUE or FALSE: Authentication is the process of verifying the identity of a user, device, or system.",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"✅ TRUE — exact definition of authentication.",trick:"تريكة: Authentication definition = TRUE."},
+
+{id:141,text:"TRUE or FALSE: Authorization occurs BEFORE authentication.",opts:["True","False"],ans:1,level:"easy",topic:"tf",expected:true,exp:"❌ FALSE — Authentication comes FIRST, then authorization. You must verify identity before granting permissions.",trick:"تريكة: AuthN قبل AuthZ دايماً. السؤال عكسه = FALSE."},
+
+{id:142,text:"TRUE or FALSE: MFA significantly reduces the chance of unauthorized access even if a password is stolen.",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"✅ TRUE — MFA adds extra layers; even with a stolen password, attacker still needs the second factor.",trick:"تريكة: MFA reduces risk even with stolen password = TRUE."},
+
+{id:143,text:"TRUE or FALSE: BitLocker Drive Encryption is available on all Windows editions.",opts:["True","False"],ans:1,level:"medium",topic:"tf",expected:true,exp:"❌ FALSE — BitLocker is only available in Windows Pro, Enterprise, and Education editions. NOT in Home edition.",trick:"تريكة: BitLocker = Pro + Enterprise + Education. NOT Home edition = FALSE."},
+
+{id:144,text:"TRUE or FALSE: Kali Linux is based on the Fedora Linux distribution.",opts:["True","False"],ans:1,level:"easy",topic:"tf",expected:true,exp:"❌ FALSE — Kali Linux is based on Debian, not Fedora.",trick:"تريكة: Kali = Debian-based. NOT Fedora = FALSE."},
+
+{id:145,text:"TRUE or FALSE: DES uses a 56-bit key which is considered weak by modern standards.",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"✅ TRUE — DES 56-bit key is too small for modern computing power. Replaced by 3DES then AES.",trick:"تريكة: DES 56-bit = weak today = TRUE."},
+
+{id:146,text:"TRUE or FALSE: SHA-256 is a broken hash algorithm.",opts:["True","False"],ans:1,level:"easy",topic:"tf",exp:"❌ FALSE — SHA-256 is secure and widely used. MD5 is broken. SHA-1 is deprecated.",trick:"تريكة: SHA-256 = Secure ✓. MD5 = Broken. FALSE."},
+
+{id:147,text:"TRUE or FALSE: In symmetric cryptography, the same key is used for both encryption and decryption.",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"✅ TRUE — symmetric = one shared key for both encryption and decryption.",trick:"تريكة: Symmetric = 1 key for both = TRUE."},
+
+{id:148,text:"TRUE or FALSE: The UAC 'Never Notify' setting is recommended for most users.",opts:["True","False"],ans:1,level:"easy",topic:"tf",expected:true,exp:"❌ FALSE — 'Never Notify' turns UAC off completely. Not recommended as apps can make changes without warning.",trick:"تريكة: Never Notify = NOT recommended = FALSE."},
+
+{id:149,text:"TRUE or FALSE: Nessus blocks security vulnerabilities it discovers.",opts:["True","False"],ans:1,level:"medium",topic:"tf",expected:true,exp:"❌ FALSE — Nessus SCANS and reports vulnerabilities (throws alerts) but does NOT block or fix them.",trick:"تريكة: Nessus = بيكتشف الثغرات مش بيسدها = FALSE."},
+
+{id:150,text:"TRUE or FALSE: Public Network Firewall profile is the most permissive of the three profiles.",opts:["True","False"],ans:1,level:"medium",topic:"tf",expected:true,exp:"❌ FALSE — Public profile is the MOST RESTRICTIVE (blocks all inbound). Domain profile is typically most permissive.",trick:"تريكة: Public = most RESTRICTIVE. Domain = most permissive. عكس السؤال = FALSE."},
+
+// ══════════════════════════════════════════════════════════
+// 10. SCENARIO / ANALYTICAL / HARD QUESTIONS
+// ══════════════════════════════════════════════════════════
+{id:151,text:"SCENARIO: A company's employee clicks a link in an email claiming to be from the bank, enters their login credentials on a fake website. This is BEST described as:",opts:["Ransomware attack","Phishing — social engineering via fake website to steal credentials","DoS attack","Insider threat"],ans:1,level:"easy",topic:"cyber",expected:true,exp:"Classic phishing = fake email + fake website → credential theft. Social engineering exploit.",trick:"تريكة: Fake email + Fake website + Credentials stolen = Phishing."},
+
+{id:152,text:"SCENARIO: A hospital's files are suddenly encrypted and a message demands $50,000 in Bitcoin for the decryption key. This is:",opts:["A DoS attack","Ransomware attack","An insider threat","A phishing attack"],ans:1,level:"easy",topic:"cyber",expected:true,exp:"Ransomware = encrypts files + demands ransom payment (usually cryptocurrency) for decryption key.",trick:"تريكة: Files encrypted + Ransom demand = Ransomware."},
+
+{id:153,text:"SCENARIO: You visit a website and malware downloads to your computer without you clicking anything. This is:",opts:["Keylogging","Drive-by download","Phishing","Social engineering"],ans:1,level:"medium",topic:"cyber",exp:"Drive-by download = automatic malware download when visiting malicious/compromised websites.",trick:"تريكة: Automatic download from website visit = Drive-by download."},
+
+{id:154,text:"SCENARIO: A company wants to store a secret message inside an innocent-looking vacation photo and email it without suspicion. They should use:",opts:["Cryptography","Firewall","Steganography","Digital signature"],ans:2,level:"medium",topic:"stego",expected:true,exp:"Steganography = hiding message inside innocent carrier (photo) so no one suspects a message exists.",trick:"تريكة: Hiding inside photo + No suspicion = Steganography."},
+
+{id:155,text:"ANALYTICAL: Which of the following provides BOTH encryption and authentication?",opts:["MD5","AES","Digital Signatures with RSA","DES"],ans:2,level:"hard",topic:"crypto",expected:true,exp:"Digital Signatures = uses asymmetric crypto: provides authentication (who signed) and integrity (not modified). Combined with encryption = both.",trick:"تريكة: Digital Signature = Authentication + Integrity + Non-repudiation. RSA can also encrypt."},
+
+{id:156,text:"COMPARISON: Symmetric vs Asymmetric — which is FASTER for bulk data encryption?",opts:["Asymmetric (RSA) — because it uses two keys","Symmetric (AES) — it is much faster and suitable for large data volumes","Both are equally fast","Neither can encrypt bulk data"],ans:1,level:"medium",topic:"crypto",expected:true,exp:"Symmetric (AES, DES) is much faster than asymmetric. Asymmetric is slow — typically used only for key exchange or signatures.",trick:"تريكة: Symmetric = Fast (bulk data). Asymmetric = Slow (key exchange/signatures only)."},
+
+{id:157,text:"TRAP: An attacker gets physical access to a BitLocker-encrypted laptop. They remove the hard drive and put it in another computer. What happens?",opts:["They can read all the data immediately","The drive's data remains encrypted — they would need the BitLocker Recovery Key","Windows will automatically unlock","The data is permanently deleted"],ans:1,level:"hard",topic:"windows",expected:true,exp:"BitLocker protects against physical theft. Moving drive to another PC = still encrypted. Need 48-digit Recovery Key.",trick:"تريكة: BitLocker = حتى لو شالوا الـ drive وحطوه في جهاز تاني = still encrypted!"},
+
+{id:158,text:"SCENARIO: You configure your home router to allow Alice 'read-only' access to shared files, Bob 'read and write' access, and Charlie 'full admin' access. This is an example of:",opts:["Mandatory Access Control (MAC)","Role-Based Access Control (RBAC)","Discretionary Access Control (DAC)","Attribute-Based Access Control (ABAC)"],ans:2,level:"medium",topic:"auth",expected:true,exp:"DAC = the resource owner (you) decides who gets what permissions. Your choice to give Alice read-only = discretionary.",trick:"تريكة: Owner decides permissions = DAC (Discretionary)."},
+
+{id:159,text:"ANALYTICAL: Why is ABAC more suitable than RBAC for complex cloud environments?",opts:["ABAC is simpler to configure","ABAC handles fine-grained decisions based on multiple attributes (time, location, device) not just role","ABAC requires no configuration","RBAC doesn't work in cloud environments"],ans:1,level:"hard",topic:"auth",exp:"ABAC evaluates user + resource + environment attributes simultaneously, enabling context-aware access — ideal for complex clouds.",trick:"تريكة: ABAC = multiple attributes = more granular than RBAC's single role check."},
+
+{id:160,text:"SCENARIO: An organization uses one login to access email, HR, CRM, and the intranet. This is:",opts:["Multi-Factor Authentication","Single Sign-On (SSO)","Role-Based Access Control","OAuth 2.0"],ans:1,level:"medium",topic:"auth",exp:"SSO (Single Sign-On) = one set of credentials to access multiple systems/applications.",trick:"تريكة: One login → Multiple systems = SSO (Single Sign-On)."},
+
+{id:161,text:"ANALYTICAL: The Caesar cipher with shift 3 encrypts 'A' as:",opts:["B","C","D","E"],ans:2,level:"medium",topic:"crypto",exp:"Caesar cipher shifts each letter by 3 positions: A→D, B→E, C→F, etc.",trick:"تريكة: Caesar shift 3: A→D, B→E, C→F. إحسب 3 خطوات للأمام."},
+
+{id:162,text:"COMPARISON: Hash vs Encryption — which is reversible?",opts:["Hash — you can reverse it with the key","Encryption — using the corresponding key you can decrypt back to plaintext","Both are reversible","Neither is reversible"],ans:1,level:"medium",topic:"crypto",expected:true,exp:"Encryption is reversible (decrypt with key). Hashing is one-way — cannot reverse a hash to original data.",trick:"تريكة: Encryption = reversible (decrypt). Hash = one-way (irreversible). Critical difference!"},
+
+{id:163,text:"SCENARIO: An employee who left the company 2 years ago still has admin access to the server. This is an example of:",opts:["Credential stuffing","Privilege Creep","Session Hijacking","Social Engineering"],ans:1,level:"medium",topic:"auth",exp:"Privilege creep = accumulating access rights that are no longer needed — classic: ex-employee retaining access.",trick:"تريكة: Ex-employee still has access = Privilege Creep."},
+
+{id:164,text:"TRAP: Which of the following provides CONFIDENTIALITY but NOT authentication?",opts:["Digital Signature","RSA Encryption of a message with recipient's public key","Hash Function","RBAC"],ans:1,level:"hard",topic:"crypto",exp:"Encrypting with recipient's public key = only they can decrypt (confidentiality) BUT doesn't prove WHO sent it (no authentication).",trick:"تريكة: Public key encryption = Confidentiality only. Add Digital Signature for Authentication."},
+
+{id:165,text:"ANALYTICAL: If a security system uses fingerprint + password + smart card, it uses:",opts:["Two-factor authentication (2FA)","Three-factor authentication — all three categories: something you are + know + have","Single Sign-On","OAuth 2.0"],ans:1,level:"medium",topic:"auth",exp:"Fingerprint (something you ARE) + password (something you KNOW) + smart card (something you HAVE) = 3-factor auth.",trick:"تريكة: Fingerprint + Password + Smart card = 3 factors = 3FA."},
+
+{id:166,text:"SCENARIO: A bank's website encrypts data using a shared secret key that the customer somehow already has. During transmission, an attacker intercepts the key. The entire system is now compromised. This illustrates:",opts:["The advantage of asymmetric cryptography","The key distribution problem of symmetric cryptography","A hash collision attack","A brute force attack"],ans:1,level:"hard",topic:"crypto",expected:true,exp:"Key distribution problem = symmetric cryptography's main weakness. If key is intercepted in transit, all encrypted data is compromised.",trick:"تريكة: Key intercepted in transit = Key Distribution Problem of Symmetric crypto. Why asymmetric was invented."},
+
+{id:167,text:"ANALYTICAL: HTTPS uses which combination for security?",opts:["Only symmetric encryption","Only asymmetric encryption","Asymmetric for key exchange + Symmetric for bulk data (hybrid approach)","Only hashing"],ans:2,level:"hard",topic:"crypto",exp:"HTTPS = hybrid: asymmetric (RSA/ECC) to securely exchange session keys, then symmetric (AES) for fast data encryption.",trick:"تريكة: HTTPS = Asymmetric (key exchange) + Symmetric (data). Hybrid = best of both worlds."},
+
+{id:168,text:"COMPARISON: CCTV vs IP Cameras — the key difference is:",opts:["CCTV is more expensive","CCTV uses cables to DVR; IP cameras transmit video over network, accessible remotely via internet","IP cameras are less secure","CCTV provides higher quality video"],ans:1,level:"medium",topic:"physical",exp:"CCTV = closed circuit, connected by cable to DVR. IP cameras = networked, accessible remotely over internet.",trick:"تريكة: CCTV = cable to DVR. IP Camera = network/internet accessible."},
+
+{id:169,text:"TRAP: A company uses AES-128 to encrypt data. An attacker attempts brute force. Approximately how many keys would they need to try?",opts:["128 keys","2^56 keys","2^128 keys (340 undecillion)","1 million keys"],ans:2,level:"hard",topic:"crypto",exp:"AES-128 keyspace = 2^128 = ~340 undecillion possible keys. Computationally infeasible with any current technology.",trick:"تريكة: AES-128 = 2^128 keys = astronomically large. Brute force is infeasible."},
+
+{id:170,text:"SCENARIO: A legitimate company's website is displaying ads that secretly download malware to visitors' computers. This is:",opts:["Phishing","Web Jacking","Malvertising","Cyber Squatting"],ans:2,level:"medium",topic:"cyber",exp:"Malvertising = malicious code injected into legitimate ad networks or websites, infecting users through ads.",trick:"تريكة: Legitimate site + Ads + Malware = Malvertising."},
+
+// More questions to reach 200
+{id:171,text:"The term 'Cyberspace' refers to:",opts:["Physical data centers","The environment in which communication over computer networks occurs — a virtual dynamic domain","Individual computers only","The internet hardware infrastructure"],ans:1,level:"easy",topic:"cyber",exp:"Cyberspace = virtual environment where interactions through digital networks, the internet, and computer systems occur.",trick:"تريكة: Cyberspace = البيئة الافتراضية للتواصل عبر الشبكات."},
+
+{id:172,text:"Which is NOT a component of Cyberspace?",opts:["Networks","The Internet","Physical filing cabinets","Digital Platforms"],ans:2,level:"easy",topic:"cyber",exp:"Components of cyberspace: Networks, Internet, Data, Digital Platforms. Physical filing cabinets are NOT part of cyberspace.",trick:"تريكة: Cyberspace = Networks + Internet + Data + Digital Platforms. Filing cabinets = physical only."},
+
+{id:173,text:"Confidentiality in cryptography means:",opts:["Data cannot be modified","Only intended recipients can read the message","The message was signed digitally","The system is available 24/7"],ans:1,level:"easy",topic:"crypto",exp:"Cryptographic confidentiality = only intended recipients can read the message (secrecy).",trick:"تريكة: Confidentiality = secrecy = only intended recipient reads it."},
+
+{id:174,text:"The Information Hiding concept of 'embedding information so it cannot be visually perceived' is:",opts:["Cryptography","Authentication","Steganography","Hashing"],ans:2,level:"easy",topic:"stego",exp:"Information hiding = steganography — classical (invisible ink) or modern (digital media). Cannot be visually perceived.",trick:"تريكة: Can't be seen/perceived = Steganography."},
+
+{id:175,text:"Which type of steganography hides messages using whitespace, word spacing, and font manipulation?",opts:["Image steganography","Audio steganography","Text steganography","Network steganography"],ans:2,level:"medium",topic:"stego",exp:"Text steganography = whitespace manipulation, word spacing, font changes, invisible text methods.",trick:"تريكة: Whitespace + font manipulation = Text steganography."},
+
+{id:176,text:"Network steganography hides data in:",opts:["Image pixel values","Audio waveforms","Covert channels in IP/TCP/DNS headers","Document metadata"],ans:2,level:"hard",topic:"stego",exp:"Network steganography = hides data in covert channels within IP, TCP, or DNS packet headers.",trick:"تريكة: Network stego = IP/TCP/DNS headers."},
+
+{id:177,text:"IDEA (International Data Encryption Algorithm) uses a key size of:",opts:["56 bits","64 bits","128 bits","256 bits"],ans:2,level:"hard",topic:"crypto",exp:"IDEA (1991) uses 128-bit key to encrypt 64-bit blocks. Performs 17 rounds similar in structure to DES.",trick:"تريكة: IDEA = 128-bit key, 64-bit blocks, 17 rounds, developed in 1991."},
+
+{id:178,text:"The FIDO2/YubiKey hardware token is an example of which MFA factor?",opts:["Something you know","Something you are","Something you have","Something you do"],ans:2,level:"medium",topic:"auth",exp:"Hardware tokens (FIDO2/YubiKey) = physical device you possess = 'something you have' factor.",trick:"تريكة: Physical token/key = Something you HAVE."},
+
+{id:179,text:"Cipher Lock Keypad technology requires:",opts:["A fingerprint","A smart card swipe","Entering a secret code on a keypad","Voice recognition"],ans:2,level:"easy",topic:"physical",exp:"Cipher Lock Keypad = numeric keypad where users enter a secret code to gain access.",trick:"تريكة: Cipher Lock Keypad = secret code on keypad."},
+
+{id:180,text:"Biometric Physiological characteristics include:",opts:["Signature and typing speed","Voice patterns and gait","Fingerprints, face recognition, hand geometry, and iris recognition","Behavioral patterns only"],ans:2,level:"medium",topic:"physical",exp:"Physiological biometrics = body-based: fingerprints, face recognition, hand geometry, iris/retina. Behavioral = signature, voice, typing.",trick:"تريكة: Physiological = جسدي. Behavioral = سلوكي."},
+
+{id:181,text:"Internet Time Theft involves:",opts:["Slowing down internet speeds","Hacking the username and password of an ISP account and using the internet at another person's cost","Stealing internet-connected devices","Monitoring online activity"],ans:1,level:"medium",topic:"cyber",exp:"Internet time theft = stealing someone's ISP credentials and using their internet connection at their expense.",trick:"تريكة: Internet Time Theft = سرقة credentials الـ ISP واستخدام الإنترنت على حساب الضحية."},
+
+{id:182,text:"Software Piracy is classified as:",opts:["A natural disaster risk","A type of firewall bypass","Illegal reproduction and distribution of software — comes under IPR infringement","A phishing technique"],ans:2,level:"easy",topic:"cyber",exp:"Software piracy = illegal copying and distribution of software. Violates Intellectual Property Rights (IPR).",trick:"تريكة: Software Piracy = نسخ وتوزيع غير قانوني = IPR infringement."},
+
+{id:183,text:"Which of the following attacks has CRITICAL severity according to the lecture?",opts:["CSRF","Brute Force","Phishing","Session Hijacking"],ans:2,level:"medium",topic:"auth",exp:"Phishing is rated CRITICAL severity — tricks users into providing credentials on fake login pages.",trick:"تريكة: Phishing = CRITICAL severity. CSRF = Medium. Brute force + Session Hijacking = HIGH."},
+
+{id:184,text:"The Stego-medium in steganography is:",opts:["The secret message to be hidden","The algorithm used to hide data","The final output that casual observers see — appears identical to cover","The decryption key"],ans:2,level:"medium",topic:"stego",exp:"Stego-medium = the final output after embedding — looks identical to the original cover to casual observers.",trick:"تريكة: Stego-medium = الناتج النهائي. يبدو مش مختلف عن الأصل."},
+
+{id:185,text:"The Kali Linux Desktop 'Workspace Switcher' allows you to:",opts:["Switch between user accounts","Launch the web browser","Switch between multiple virtual desktops to organize windows","Access system settings"],ans:2,level:"easy",topic:"kali",exp:"Workspace Switcher = switch between multiple virtual desktops/workspaces in Kali Linux GUI.",trick:"تريكة: Workspace Switcher = تبديل بين سطوح المكتب الافتراضية."},
+
+{id:186,text:"Aircrack-ng can crack which WiFi security protocols?",opts:["WPA3 only","HTTPS and FTP","WEP and WPA PSK (WPA1 and WPA2)","Only WEP"],ans:2,level:"medium",topic:"kali",exp:"Aircrack-ng cracks WEP and WPA/WPA2 PSK (Pre-Shared Key) wireless encryption.",trick:"تريكة: Aircrack-ng = WEP + WPA1 + WPA2 cracking."},
+
+{id:187,text:"Which of the following is a goal of Physical Security?",opts:["Preventing only fire hazards","Detection of unauthorized activity","Allowing all visitors access","Preventing software installations"],ans:1,level:"easy",topic:"physical",exp:"Physical security goals: Preventing unauthorized access, Delay, Detection, and Evaluation of threats.",trick:"تريكة: Physical security goals = Prevent + Delay + Detect + Evaluate."},
+
+{id:188,text:"The UAC 'Always Notify' setting is recommended for:",opts:["Most regular users","Power users who install software frequently","Users who frequently visit unfamiliar websites","Administrators only"],ans:2,level:"medium",topic:"windows",exp:"Always Notify = recommended for users who visit unfamiliar websites — maximum protection, dims desktop for all changes.",trick:"تريكة: Always Notify = أعلى حماية. للمستخدمين اللي بيزوروا مواقع غير موثوقة."},
+
+{id:189,text:"BLAKE3 hash function is notable for being:",opts:["128-bit and the most secure","The slowest but most reliable","256-bit and the fastest","Deprecated like MD5"],ans:2,level:"hard",topic:"crypto",exp:"BLAKE3 = 256-bit, fastest secure hash function. Used as a modern alternative to SHA-256.",trick:"تريكة: BLAKE3 = 256-bit + Fastest ✓."},
+
+{id:190,text:"What does a Digital Signature NOT provide?",opts:["Authentication","Non-repudiation","Confidentiality","Integrity"],ans:2,level:"hard",topic:"crypto",expected:true,exp:"Digital signatures do NOT provide confidentiality — anyone with the public key can verify. For confidentiality, use encryption separately.",trick:"تريكة: Digital Signature = Authentication + Integrity + Non-repudiation. مش Confidentiality!"},
+
+{id:191,text:"The principle of 'Least Privilege' in access control means:",opts:["Users should have maximum permissions for efficiency","Users should have only the minimum permissions necessary for their role","All users should have equal access","Only administrators should use the system"],ans:1,level:"medium",topic:"auth",expected:true,exp:"Least Privilege = users get only the permissions they need to do their job — reduces damage if account is compromised.",trick:"تريكة: Least Privilege = الحد الأدنى من الصلاحيات الضرورية فقط."},
+
+{id:192,text:"Credential Sharing (users sharing passwords) is dangerous because:",opts:["It improves team efficiency","It violates password policies and makes it impossible to trace individual actions (accountability)","It increases encryption strength","It reduces help desk calls"],ans:1,level:"medium",topic:"auth",exp:"Password sharing = violates accountability (can't trace who did what), spreads risk, and violates most security policies.",trick:"تريكة: Credential Sharing = violates Accountability. مش ممكن تتبع مين عمل إيه."},
+
+{id:193,text:"Alert Threshold in audit logging: logins from a new country trigger an alert because:",opts:["International logins are always blocked","This could indicate account compromise — legitimate users typically login from known locations","International logins are free","VPNs are required for international access"],ans:1,level:"medium",topic:"auth",exp:"Anomalous login location = possible account compromise. Alert thresholds detect unusual patterns like login from new countries.",trick:"تريكة: Login من بلد جديد = ممكن compromise. Anomaly detection."},
+
+{id:194,text:"The DSS (Digital Signature Standard) was developed by:",opts:["IBM in 1985","RSA Security","The US National Security Agency (NSA), published by NIST in 1994","Microsoft in 2001"],ans:2,level:"medium",topic:"crypto",exp:"DSS = developed by NSA, published by NIST in 1994. Specified in FIPS 186. Uses DSA (Digital Signature Algorithm).",trick:"تريكة: DSS = NSA developed it, NIST published it, 1994, FIPS 186."},
+
+{id:195,text:"GCM (Galois/Counter Mode) for AES is notable because it provides:",opts:["Only encryption without integrity","Authenticated encryption — both confidentiality AND data integrity verification","Only data integrity without encryption","Maximum compatibility with legacy systems"],ans:1,level:"hard",topic:"crypto",exp:"GCM = authenticated encryption mode. Provides both encryption (confidentiality) and authentication tag (integrity). Used in TLS.",trick:"تريكة: GCM = Authenticated Encryption = Confidentiality + Integrity. الأفضل للـ TLS/HTTPS."},
+
+{id:196,text:"SCENARIO: A security team notices 50 failed login attempts in 2 minutes from the same IP. According to alert thresholds, this indicates:",opts:["Normal user behavior","A brute force or credential stuffing attack attempt","A system error","A forgotten password"],ans:1,level:"medium",topic:"auth",exp:"5+ failed logins in 2 minutes = alert threshold exceeded — likely brute force or credential stuffing attack.",trick:"تريكة: 5+ failed logins in 2 min = Brute force alert. 50 في دقيقتين = confirmed attack!"},
+
+{id:197,text:"COMPARISON: What is the main difference between Fingerprinting and Watermarking?",opts:["Fingerprinting adds data to the file; Watermarking analyzes existing data","Fingerprinting analyzes inherent unique properties WITHOUT adding data; Watermarking EMBEDS identification information","Both are identical techniques","Fingerprinting is for images only"],ans:1,level:"hard",topic:"stego",exp:"Fingerprinting = analyzes native properties (doesn't add data). Watermarking = embeds identification code into the media.",trick:"تريكة: Fingerprint = بيحلل الخصائص الموجودة (مش بيضيف). Watermark = بيضيف معلومات للملف."},
+
+{id:198,text:"The XTS-AES 128-bit mode used in BitLocker is specifically designed for:",opts:["Network traffic encryption","Cloud data protection","Disk/storage encryption — provides protection against specific storage attack modes","Email encryption"],ans:2,level:"hard",topic:"windows",exp:"XTS-AES = mode specifically designed for disk/storage encryption. Protects against storage-specific attacks like sector swap attacks.",trick:"تريكة: XTS-AES = disk encryption mode. BitLocker بيستخدمه."},
+
+{id:199,text:"ULTIMATE ANALYTICAL: A message is sent with a digital signature AND encrypted with the recipient's public key. What security properties does this provide?",opts:["Authentication only","Confidentiality only","Confidentiality (encryption) + Authentication + Integrity + Non-repudiation (signature) — All four","Integrity only"],ans:2,level:"tricky",topic:"crypto",expected:true,exp:"Encrypt with recipient's public key = Confidentiality. Digital Signature = Authentication + Integrity + Non-repudiation. Combined = all four security properties.",trick:"تريكة: Encryption + Digital Signature = كل الـ 4 properties: Confidentiality + Authentication + Integrity + Non-repudiation."},
+
+{id:200,text:"FINAL TRAP: Which statement about the CIA Triad is INCORRECT?",opts:["Confidentiality prevents unauthorized disclosure","Integrity ensures data accuracy and cannot be edited without authorization","Availability means data is encrypted at rest","All three together form the foundation of Information Security"],ans:2,level:"tricky",topic:"infosec",expected:true,exp:"Availability = data accessible when needed by authorized users — NOT 'encrypted at rest'. Encryption is how Confidentiality is achieved, not Availability.",trick:"تريكة: Availability = متاحة وقت الحاجة. مش 'encrypted at rest' — دي Confidentiality. الجواب C غلط."},
+
+// ══════════ LECTURE 11 NEW QUESTIONS ══════════
+
+// ── INFOSEC BASICS ──
+{id:201,text:"Which CIA triad principle ensures information is not disclosed to unauthorized individuals?",opts:["Integrity","Availability","Confidentiality","Non-repudiation"],ans:2,level:"easy",topic:"infosec",expected:true,exp:"Confidentiality = prevents unauthorized disclosure. Achieved via encryption and access controls.",trick:"تريكة: Confidentiality = السرية. Unauthorized لا يشوف."},
+
+{id:202,text:"Which principle means data cannot be edited in an unauthorized way?",opts:["Confidentiality","Integrity","Availability","Accountability"],ans:1,level:"easy",topic:"infosec",expected:true,exp:"Integrity = maintaining accuracy and completeness. Data cannot be modified without authorization. Enforced via hashing.",trick:"تريكة: Integrity = دقة البيانات + عدم التعديل غير المصرح. Hashing."},
+
+{id:203,text:"Non-repudiation means:",opts:["Data is encrypted at rest","A party cannot deny sending or receiving a message","Unauthorized users are blocked","Data is always available"],ans:1,level:"medium",topic:"infosec",expected:true,exp:"Non-repudiation = one party cannot deny sending, and the other cannot deny receiving a message or transaction.",trick:"تريكة: Non-repudiation = مش ممكن تنكر. Digital signatures بتضمنه."},
+
+{id:204,text:"Authenticity in InfoSec means:",opts:["Data is backed up regularly","Verifying that users are who they say they are and inputs come from trusted sources","Data cannot be modified","Systems stay online 24/7"],ans:1,level:"medium",topic:"infosec",exp:"Authenticity = verifying identity of users and confirming each input arrives from a trusted source.",trick:"تريكة: Authenticity = التحقق من الهوية. Are you really who you claim?"},
+
+{id:205,text:"Accountability in InfoSec means:",opts:["All data is publicly available","Actions of an entity can be traced back uniquely to that entity","Users can access any resource","Systems never go down"],ans:1,level:"medium",topic:"infosec",expected:true,exp:"Accountability = actions can be traced uniquely to the entity that performed them. Enforced via audit logs.",trick:"تريكة: Accountability = كل فعل مرتبط بمن فعله. Audit logs."},
+
+{id:206,text:"Which of the following is NOT a reason why Information Security is important?",opts:["Protecting sensitive information","Mitigating risk","Increasing server processing speed","Ensuring business continuity"],ans:2,level:"easy",topic:"infosec",exp:"The 5 reasons for InfoSec: protecting sensitive info, mitigating risk, respect for rules, protecting reputation, ensuring business continuity. Server speed is irrelevant.",trick:"تريكة: InfoSec reasons = protection + risk + rules + reputation + continuity. Server speed مش منهم."},
+
+{id:207,text:"Effective information security requires:",opts:["Technology only","People only","A comprehensive multi-disciplinary approach involving people, processes, and technology","Hardware upgrades only"],ans:2,level:"easy",topic:"infosec",expected:true,exp:"InfoSec requires: People + Processes + Technology. No single element is sufficient alone.",trick:"تريكة: InfoSec = People + Processes + Technology. الثلاثة مع بعض."},
+
+{id:208,text:"Which InfoSec disadvantage gives organizations a false sense of security?",opts:["Complexity","Inaccurate classification","False sense of security","Maintenance"],ans:2,level:"medium",topic:"infosec",exp:"False sense of security = implementing InfoSec may make organizations overlook other important controls and best practices.",trick:"تريكة: False sense of security = اعتقاد زائف بالأمان بعد تطبيق الـ classification."},
+
+{id:209,text:"Why must information classification be reviewed frequently?",opts:["To increase storage costs","Because it can become outdated and ineffective if not updated","To add more users","To reduce complexity"],ans:1,level:"medium",topic:"infosec",exp:"Maintenance = classification must be reviewed and updated regularly, otherwise it becomes outdated and ineffective.",trick:"تريكة: Classification = needs frequent review. Information يتغير = classification لازم تتغير."},
+
+{id:210,text:"Inaccurate classification in InfoSec can lead to:",opts:["Better security","Inadequate protection or unnecessary access restrictions","Faster processing","Lower costs"],ans:1,level:"medium",topic:"infosec",exp:"Misclassification can lead to inadequate protection (too low) or unnecessary restrictions (too high).",trick:"تريكة: Misclassification = بشري = inadequate protection أو unnecessary restrictions."},
+
+// ── CYBERSPACE & CYBERCRIME ──
+{id:211,text:"Cyberspace is best described as:",opts:["A physical network of cables","A virtual domain created by computer networks where digital interactions occur","A government-controlled database","A type of encryption protocol"],ans:1,level:"easy",topic:"cyber",expected:true,exp:"Cyberspace = virtual and dynamic domain where all digital interactions take place.",trick:"تريكة: Cyberspace = virtual domain. كل التفاعل الرقمي يحدث فيه."},
+
+{id:212,text:"Which is NOT a component of Cyberspace?",opts:["Networks","The Internet","Physical paper documents","Digital Platforms"],ans:2,level:"easy",topic:"cyber",exp:"Cyberspace components: Networks, Internet, Data, Digital Platforms. Physical paper = NOT digital/cyber.",trick:"تريكة: Cyberspace = digital only. Physical paper مش جزء منه."},
+
+{id:213,text:"The Digital Divide challenge in Cyberspace refers to:",opts:["Too much internet speed","Unequal access to networks and computer literacy","Cybersecurity attacks","Privacy violations"],ans:1,level:"medium",topic:"cyber",exp:"Digital Divide = unequal access to internet and computer literacy — excludes some from participating in cyberspace.",trick:"تريكة: Digital Divide = الفجوة الرقمية. اللي معندهوش access = محروم."},
+
+{id:214,text:"An Insider Attack in cybercrime is performed by:",opts:["An external hacker","A person with authorized system access like a disgruntled employee","A virus from the internet","A natural disaster"],ans:1,level:"easy",topic:"cyber",expected:true,exp:"Insider Attack = performed by someone WITH authorized access (employee, contractor) who misuses it.",trick:"تريكة: Insider = من داخل المنظمة وعنده authorized access."},
+
+{id:215,text:"An Unstructured Attack is typically performed by:",opts:["Highly skilled professionals with clear motives","Amateurs testing tools without predefined motives","Government agencies","Organized crime groups"],ans:1,level:"medium",topic:"cyber",exp:"Unstructured attacks = performed by amateurs (script kiddies) testing tools without specific targets or motives.",trick:"تريكة: Unstructured = هواة بدون هدف محدد."},
+
+{id:216,text:"Cyber Stalking involves:",opts:["Hacking financial systems","Harassing or threatening someone using the internet including false accusations and monitoring","Creating viruses","Stealing credit card data"],ans:1,level:"easy",topic:"cyber",exp:"Cyber Stalking = internet harassment/threats — false accusations, sexual exploitation, monitoring.",trick:"تريكة: Cyber Stalking = تحرش + تهديد عبر الإنترنت."},
+
+{id:217,text:"Cyber Squatting is:",opts:["Hacking government websites","Reserving someone else's trademark domain name with intent to sell it at a higher price","Creating fake antivirus","Stealing passwords"],ans:1,level:"medium",topic:"cyber",exp:"Cyber Squatting = registering someone else's trademark domain to sell it back to the owner at a higher price.",trick:"تريكة: Cyber Squatting = domain name بتاع علامة تجارية حد تاني وتبيعه بسعر أعلى."},
+
+{id:218,text:"Web Jacking involves:",opts:["Installing spyware","Gaining access to a website and modifying it for political or economic goals","Stealing usernames","Sending spam"],ans:1,level:"medium",topic:"cyber",exp:"Web Jacking = unauthorized access to a website — blocking or modifying it for political, economic, or social goals.",trick:"تريكة: Web Jacking = اختطاف موقع وتعديله."},
+
+{id:219,text:"Cross Site Scripting (XSS) works by:",opts:["Encrypting website traffic","Injecting malicious client-side script into a trusted website to steal cookies and sensitive info","Blocking website access","Copying website content"],ans:1,level:"hard",topic:"cyber",exp:"XSS = injects malicious scripts into trusted websites. Browser executes the script, steals cookies/sensitive data, sends to remote servers.",trick:"تريكة: XSS = malicious script في trusted website → browser ينفذه → يسرق cookies."},
+
+{id:220,text:"The '10 Internet Security Legends' teaches that:",opts:["Only rich people are targeted","Everyone is vulnerable — automated tools scan ALL internet-connected systems","Antivirus alone provides complete protection","Trusted sources are always safe"],ans:1,level:"medium",topic:"cyber",exp:"Myth debunked: automated tools scan ALL systems indiscriminately. Everyone is a potential target.",trick:"تريكة: Everyone is a target. Automated tools بيسكانوا كل حاجة."},
+
+// ── MALWARE ──
+{id:221,text:"Which malware type forces advertising by redirecting pages to pop-ups?",opts:["Spyware","Adware","Ransomware","Worm"],ans:1,level:"easy",topic:"cyber",expected:true,exp:"Adware = forced advertising — redirects pages to advertising sites or shows pop-ups.",trick:"تريكة: Adware = Ad + ware = إعلانات قسرية."},
+
+{id:222,text:"The main difference between a Virus and a Worm is:",opts:["Viruses are faster","Worms replicate without human intervention; Viruses require human action to spread","Worms only target mobile","Viruses are always visible"],ans:1,level:"medium",topic:"cyber",expected:true,exp:"Worms = self-replicating WITHOUT human intervention. Viruses need human action (opening infected file).",trick:"تريكة: Worm = self-spreading. Virus = needs human. Key: human intervention."},
+
+{id:223,text:"A Trojan Horse differs from other malware because it:",opts:["Spreads automatically","Pretends to be useful software to trick users into installing it — creating a backdoor","Only affects mobiles","Deletes all files immediately"],ans:1,level:"easy",topic:"cyber",expected:true,exp:"Trojan = disguises as legitimate software → user installs → creates backdoor for remote control.",trick:"تريكة: Trojan = disguise. يتظاهر أنه برنامج مفيد. Like the Trojan Horse story."},
+
+{id:224,text:"Browser Hijacking software modifies:",opts:["Email settings","Printer settings","Browser settings and redirects to unintended sites","Operating system kernel"],ans:2,level:"easy",topic:"cyber",exp:"Browser Hijacking = modifies browser settings, redirecting to unintended/malicious sites.",trick:"تريكة: Browser Hijacking = يخطف المتصفح ويعمل redirect."},
+
+{id:225,text:"Malvertising spreads malware through:",opts:["Email attachments","Online advertising networks — via clicking, redirects, or drive-by downloads","USB drives","Phone calls"],ans:1,level:"medium",topic:"cyber",exp:"Malvertising = malicious advertising — injects malware code into ad networks. Spread via clicking, redirects, drive-by downloads.",trick:"تريكة: Malvertising = Malicious + Advertising. الإعلانات الملوثة."},
+
+{id:226,text:"Keylogging records:",opts:["Your location","Every keystroke to steal passwords and confidential information","Webcam activity","Browser history only"],ans:1,level:"easy",topic:"cyber",expected:true,exp:"Keylogging = records every key pressed — capturing passwords, PINs, credit card numbers.",trick:"تريكة: Keylogging = key + logging = تسجيل كل ضغطة."},
+
+{id:227,text:"A Zero-Day virus appears when:",opts:["Old malware is reactivated","Cyber criminals discover a previously unknown flaw before a patch exists","A system shuts down incorrectly","Antivirus definitions are outdated"],ans:1,level:"medium",topic:"cyber",expected:true,exp:"Zero-Day = exploits unknown/unpatched vulnerability. Zero days to fix it before exploitation.",trick:"تريكة: Zero-Day = unknown vulnerability. Zero days to patch it."},
+
+{id:228,text:"Patching refers to:",opts:["Physical repair of computers","Updating software to fix bugs and close security vulnerabilities","Installing new hardware","Changing passwords"],ans:1,level:"easy",topic:"cyber",exp:"Patching = updating software to newer version to fix bugs and prevent Zero-Day exploits.",trick:"تريكة: Patching = software updates = سد الثغرات."},
+
+{id:229,text:"Drive-by download occurs when:",opts:["You deliberately download malware","You authorize a download without understanding it installs malware","Your computer is stolen","A hacker physically accesses your machine"],ans:1,level:"medium",topic:"cyber",exp:"Drive-by = you authorized a download but without understanding it installs malware or malicious components.",trick:"تريكة: Drive-by = وافقت بدون ما تعرف إيه اللي بتحمله."},
+
+{id:230,text:"Social Engineering relies primarily on:",opts:["Technical vulnerabilities","Psychological manipulation to perform actions or reveal confidential information","Brute force password attacks","Hardware exploits"],ans:1,level:"easy",topic:"cyber",expected:true,exp:"Social Engineering = psychological manipulation — lies, impersonation, tricks. Exploits human behavior NOT technical vulnerabilities.",trick:"تريكة: Social Engineering = نفسي مش تقني. بيخدعك إنت مش النظام."},
+
+// ── PHYSICAL SECURITY ──
+{id:231,text:"Physical security protects from:",opts:["Software bugs only","Fire, natural disasters, robbery, and physical destruction","Network attacks","Phishing emails"],ans:1,level:"easy",topic:"physical",expected:true,exp:"Physical Security = protection from physical threats: fire, natural disasters, robbery, destruction, physical intrusion.",trick:"تريكة: Physical = مادي. النار + السرقة + الكوارث الطبيعية."},
+
+{id:232,text:"Physical protection is considered:",opts:["The last line of defense","Optional for small organizations","The FIRST line of defense for information security","Only for government buildings"],ans:2,level:"easy",topic:"physical",expected:true,exp:"Physical = FIRST line of defense. If physical security fails, all other security measures can be bypassed.",trick:"تريكة: Physical = FIRST line. لو المبنى اتخترق، باقي الأمان محدوش قيمة."},
+
+{id:233,text:"Which is NOT a goal of Physical Security systems?",opts:["Preventing","Delay","Detection","Data encryption"],ans:3,level:"medium",topic:"physical",exp:"Physical goals = Preventing + Delay + Detection + Evaluation. Data encryption = logical security, not physical.",trick:"تريكة: Physical goals = Prevent + Delay + Detect + Evaluate. Encryption = logical مش physical."},
+
+{id:234,text:"The three systems making up Physical Security are:",opts:["Firewalls, IDS, Antivirus","Access control, Video monitoring, Alarm systems","Encryption, Hashing, Signatures","Passwords, PINs, Smart cards"],ans:1,level:"easy",topic:"physical",expected:true,exp:"3 physical security systems: (1) Access control systems, (2) Video monitoring systems, (3) Alarm systems.",trick:"تريكة: Physical = Access Control + Video Monitoring + Alarm Systems."},
+
+{id:235,text:"Biometrics uses which identification method?",opts:["Something you know","Something you have","Something you are","Something you believe"],ans:2,level:"easy",topic:"physical",expected:true,exp:"Biometrics = 'something you are' — physical/behavioral characteristics unique to each person.",trick:"تريكة: Biometrics = Something you ARE. جسمك هو مفتاحك."},
+
+{id:236,text:"Which biometric measure is ranked MOST secure?",opts:["Fingerprint","Voice pattern","Iris pattern","Signature"],ans:2,level:"medium",topic:"physical",expected:true,exp:"Security ranking (most → least): Iris > Fingerprint > Handprint > Voice > Keystroke > Signature.",trick:"تريكة: Most secure = Iris. العين هي الأصعب في التزوير."},
+
+{id:237,text:"IP cameras differ from CCTV in that IP cameras:",opts:["Use analog signals","Connect directly to the network with their own IP address","Only work outdoors","Store data only locally"],ans:1,level:"medium",topic:"physical",exp:"IP Camera = connects to network with unique IP address. CCTV = cable → DVR.",trick:"تريكة: IP Camera = network IP address. CCTV = cable → DVR."},
+
+{id:238,text:"The Smart Scan programmable lock works by:",opts:["Entering a secret code","Storing authorized fingerprints and scanning via radio waves to unlock","Scanning RFID cards","Facial recognition only"],ans:1,level:"medium",topic:"physical",exp:"Smart Scan = stores authorized fingerprints. Uses radio waves to scan. Battery-powered, no wiring.",trick:"تريكة: Smart Scan = fingerprint storage + radio wave scanning. Battery powered."},
+
+{id:239,text:"Ideal physical barrier implementation requires how many barriers?",opts:["One at the entrance","Three: perimeter, computer center entrance, computer room entrance","Password protection only","Cameras everywhere"],ans:1,level:"medium",topic:"physical",exp:"Three barriers: (1) Perimeter, (2) Computer center entrance, (3) Computer room entrance. Each more secure.",trick:"تريكة: Three barriers = Perimeter → Computer center → Computer room."},
+
+{id:240,text:"Differential backup saves:",opts:["All data every time","Only changes since last backup","Changes since the last FULL backup","Instant replica"],ans:2,level:"medium",topic:"physical",expected:true,exp:"Differential = changes since last FULL backup. Gets larger over time until next full backup.",trick:"تريكة: Differential = since last FULL backup. بيكبر مع الوقت."},
+
+{id:241,text:"Incremental backup differs from Differential in that it backs up:",opts:["More data","Changes since the LAST backup of any type (smaller/faster)","Changes since the last full backup","Everything every time"],ans:1,level:"hard",topic:"physical",exp:"Incremental = changes since last backup (any type) — smaller and faster. Differential = since last FULL backup — larger but easier to restore.",trick:"تريكة: Incremental = last backup. Differential = last FULL backup. Incremental أصغر."},
+
+{id:242,text:"A Hot Site in disaster recovery:",opts:["Is an empty space","Is fully equipped with devices and backup data — ready to operate IMMEDIATELY","Only has basic utilities","Is a mobile unit"],ans:1,level:"medium",topic:"physical",expected:true,exp:"Hot Site = fully equipped, backup data ready — resume operations IMMEDIATELY after a disaster.",trick:"تريكة: Hot Site = جاهز فوراً. Everything is ready."},
+
+{id:243,text:"Dumpster Diving involves:",opts:["Network hacking","Physically searching through trash for sensitive information","Social media scraping","Installing spyware"],ans:1,level:"easy",topic:"physical",expected:true,exp:"Dumpster Diving = physically searching trash for sensitive documents, passwords, or confidential data. Also called 'leadership war'.",trick:"تريكة: Dumpster Diving = القمامة كمصدر للمعلومات السرية."},
+
+{id:244,text:"To protect against Dumpster Diving you should:",opts:["Install antivirus","Shred documents, wipe devices before discarding, data destruction policies","Use strong passwords","Enable MFA"],ans:1,level:"medium",topic:"physical",exp:"Protection: shred documents, wipe/physically destroy old drives, lock bins, data destruction policies, training.",trick:"تريكة: Dumpster Diving protection = Shred + Wipe + Lock bins + Train."},
+
+{id:245,text:"Shoulder Surfing is:",opts:["Installing cameras on shoulders","Directly observing a target over their shoulder to steal PINs or passwords","A social media attack","Hacking via Bluetooth"],ans:1,level:"easy",topic:"physical",exp:"Shoulder Surfing = attacker physically watches over victim's shoulder to see sensitive info being typed.",trick:"تريكة: Shoulder Surfing = بيبص من ورا كتفك وهو شايف الباسوورد."},
+
+{id:246,text:"Recommended humidity level for computer workstations is:",opts:["0-10%","20-30%","40-60%","80-100%"],ans:2,level:"medium",topic:"physical",exp:"40-60% is recommended. Too dry = static electricity. Too humid = condensation/corrosion.",trick:"تريكة: Humidity = 40-60%. مش جاف جداً ومش رطب جداً."},
+
+{id:247,text:"Fiber optic cables are preferred over copper in secure environments because:",opts:["They are cheaper","Copper is vulnerable to electromagnetic waves; fiber is more secure","They are easier to install","Fiber is faster only"],ans:1,level:"medium",topic:"physical",exp:"Fiber optic = more secure. Copper vulnerable to electromagnetic interference and eavesdropping.",trick:"تريكة: Fiber > Copper in security. Copper vulnerable to EM waves."},
+
+// ── CRYPTOGRAPHY ──
+{id:248,text:"Cryptanalysis is:",opts:["Designing encryption algorithms","Breaking or attacking cryptographic systems","Implementing secure networks","Managing keys"],ans:1,level:"easy",topic:"crypto",expected:true,exp:"Cryptanalysis = the science of breaking or attacking cryptographic systems. Cryptanalysts = attackers.",trick:"تريكة: Cryptanalysis = تحليل وكسر الشفرات. العكس من Cryptography."},
+
+{id:249,text:"Cryptology covers:",opts:["Only cryptography","Only cryptanalysis","Both cryptography AND cryptanalysis","Only hash functions"],ans:2,level:"medium",topic:"crypto",exp:"Cryptology = umbrella term for Cryptography (securing) + Cryptanalysis (breaking).",trick:"تريكة: Cryptology = Cryptography + Cryptanalysis. الكل."},
+
+{id:250,text:"The process of turning ciphertext back to plaintext is called:",opts:["Encryption","Hashing","Decryption","Encoding"],ans:2,level:"easy",topic:"crypto",expected:true,exp:"Decryption = converting ciphertext back to readable plaintext using the decryption key.",trick:"تريكة: Decryption = فك التشفير. Cipher → Plaintext."},
+
+{id:251,text:"A cryptosystem has how many main components?",opts:["2","4","6","8"],ans:2,level:"medium",topic:"crypto",exp:"6 components: Plaintext, Encryption Algorithm, Ciphertext, Decryption Algorithm, Encryption Key, Decryption Key.",trick:"تريكة: Cryptosystem = 6 components. Plaintext+EncAlgo+Cipher+DecAlgo+EncKey+DecKey."},
+
+{id:252,text:"Entropy in cryptography measures:",opts:["Key length","Encryption speed","Randomness and unpredictability","Number of cipher rounds"],ans:2,level:"hard",topic:"crypto",exp:"Entropy = measure of randomness/unpredictability. Higher entropy = stronger security.",trick:"تريكة: Entropy = عشوائية. زود الـ entropy = زود الأمان."},
+
+{id:253,text:"The Caesar Cipher used a shift of:",opts:["1","2","3","7"],ans:2,level:"easy",topic:"crypto",exp:"Julius Caesar used a shift of THREE to protect military messages.",trick:"تريكة: Caesar = shift of 3. Julius Caesar."},
+
+{id:254,text:"The primary goal of cryptography is to:",opts:["Speed up data transfer","Secure important data on disk or in transit through insecure networks","Replace firewalls","Store passwords in plaintext"],ans:1,level:"easy",topic:"crypto",expected:true,exp:"Primary goal = secure data on disk OR in transit through potentially insecure networks.",trick:"تريكة: Cryptography = secure data in transit or at rest."},
+
+{id:255,text:"DES uses a key size of:",opts:["128 bits","64 bits","56 bits","256 bits"],ans:2,level:"medium",topic:"crypto",expected:true,exp:"DES = 56-bit key, 64-bit block size. Too small for modern computing — replaced by AES.",trick:"تريكة: DES = 56-bit key. Too small today!"},
+
+{id:256,text:"Triple DES was created to:",opts:["Reduce encryption speed","Address the weakness of DES's 56-bit key","Support wireless encryption","Replace asymmetric cryptography"],ans:1,level:"medium",topic:"crypto",exp:"Triple DES = fix for DES weaknesses. Applies DES algorithm three times for effectively longer key.",trick:"تريكة: Triple DES = fix for DES 56-bit weakness."},
+
+{id:257,text:"AES supports which key sizes?",opts:["56, 112, 168 bits","64, 128, 192 bits","128, 192, 256 bits","256, 512, 1024 bits"],ans:2,level:"medium",topic:"crypto",expected:true,exp:"AES = AES-128, AES-192, AES-256. All use 128-bit block size. US government standard.",trick:"تريكة: AES = 128/192/256-bit keys. Block = always 128-bit."},
+
+{id:258,text:"IDEA was developed in:",opts:["1977","1985","1991","2001"],ans:2,level:"hard",topic:"crypto",exp:"IDEA (International Data Encryption Algorithm) = developed 1991. 128-bit key, 64-bit blocks, 17 rounds.",trick:"تريكة: IDEA = 1991, 128-bit key."},
+
+{id:259,text:"The key distribution problem in symmetric cryptography is:",opts:["Keys are too long","Both parties must securely exchange the key — if intercepted, entire system is compromised","Symmetric is too slow","Keys expire automatically"],ans:1,level:"medium",topic:"crypto",expected:true,exp:"Key distribution = main weakness of symmetric crypto. Secure key exchange is the nightmare — led to Public Key Cryptography.",trick:"تريكة: Symmetric key problem = كيف توصل الـ key بأمان؟"},
+
+{id:260,text:"In asymmetric cryptography, a sender encrypts with:",opts:["Sender's private key","Recipient's PUBLIC key","A shared secret key","A random key"],ans:1,level:"easy",topic:"crypto",expected:true,exp:"Asymmetric encryption: sender encrypts with recipient's PUBLIC key. Only recipient's PRIVATE key can decrypt.",trick:"تريكة: Encrypt with PUBLIC key, decrypt with PRIVATE key."},
+
+{id:261,text:"RSA was first publicly described in:",opts:["1991","1994","1977","2001"],ans:2,level:"medium",topic:"crypto",exp:"RSA (Rivest, Shamir, Adleman) = first described 1977. First algorithm for both signing and encryption.",trick:"تريكة: RSA = 1977. Rivest, Shamir, Adleman."},
+
+{id:262,text:"ElGamal encryption is based on:",opts:["Integer factorization","Discrete logarithms","Elliptic curves","Block ciphers"],ans:1,level:"hard",topic:"crypto",exp:"ElGamal = based on discrete logarithm problem. Used in GNU Privacy Guard (GPG).",trick:"تريكة: ElGamal = discrete logarithms. مش RSA (factorization)."},
+
+{id:263,text:"SHA-3 is based on which algorithm chosen by NIST in 2012?",opts:["MD5","SHA-256","Keccak","Rijndael"],ans:2,level:"hard",topic:"crypto",exp:"NIST chose Keccak as SHA-3 standard in October 2012 — after attacks on MD5, SHA-0, SHA-1.",trick:"تريكة: SHA-3 = Keccak algorithm. NIST 2012."},
+
+{id:264,text:"MD5 produces a digest of:",opts:["128-bit","160-bit","256-bit","512-bit"],ans:0,level:"medium",topic:"crypto",expected:true,exp:"MD5 = 128-bit hash. BROKEN — has collision vulnerabilities. Do not use for security.",trick:"تريكة: MD5 = 128-bit. BROKEN. SHA-1=160. SHA-256=256."},
+
+{id:265,text:"The Avalanche Effect means:",opts:["Larger files produce larger hashes","A small input change produces a drastically different hash","Hash functions are reversible","Equal inputs produce different hashes"],ans:1,level:"medium",topic:"crypto",expected:true,exp:"Avalanche Effect = tiny change in input → completely different hash output. Ensures hash security.",trick:"تريكة: Avalanche = تغيير صغير → نتيجة مختلفة كلياً."},
+
+{id:266,text:"A Birthday Attack exploits:",opts:["Weak passwords","Hash collisions — finding two different messages with the same hash","Physical server access","Weak random number generators"],ans:1,level:"hard",topic:"crypto",exp:"Birthday Attack = exploits birthday paradox to find hash collisions. Requires ≥256-bit digests to mitigate.",trick:"تريكة: Birthday Attack = hash collisions. يستغل فرصة إيجاد رسالتين بنفس الـ hash."},
+
+{id:267,text:"A Replay Attack is mitigated by:",opts:["Longer passwords","Nonces and timestamps","Larger key sizes","Encrypting twice"],ans:1,level:"medium",topic:"crypto",exp:"Replay = resending captured valid messages. Mitigated by nonces (used once) and timestamps that expire.",trick:"تريكة: Replay Attack mitigation = nonces + timestamps."},
+
+{id:268,text:"A Padding Oracle Attack exploits:",opts:["Weak passwords","Error messages in CBC mode decryption (POODLE)","Weak random numbers","RSA key generation"],ans:1,level:"hard",topic:"crypto",exp:"Padding Oracle = exploits CBC decryption error messages. POODLE is an example. Use AEAD modes instead.",trick:"تريكة: Padding Oracle = CBC error messages. POODLE. Use GCM instead."},
+
+{id:269,text:"Which cipher mode is insecure because identical plaintext produces identical ciphertext?",opts:["CBC","CTR","ECB","GCM"],ans:2,level:"hard",topic:"crypto",exp:"ECB = Electronic Codebook. Identical plaintext → identical ciphertext blocks. Reveals patterns. Do NOT use.",trick:"تريكة: ECB = insecure. Identical in = identical out = pattern leak."},
+
+{id:270,text:"Stream ciphers encrypt:",opts:["Fixed 128-bit blocks","One bit or byte at a time using a pseudorandom keystream","Only text data","Files in parallel"],ans:1,level:"medium",topic:"crypto",exp:"Stream ciphers = encrypt one bit/byte at a time. Good for real-time: voice, video.",trick:"تريكة: Stream = bit by bit or byte by byte. Real-time use."},
+
+// ── WINDOWS SECURITY ──
+{id:271,text:"The Security Tab in Windows Explorer manages:",opts:["Drive defragmentation","NTFS permissions on files, folders, and drives","Email encryption","Network connections"],ans:1,level:"easy",topic:"windows",expected:true,exp:"Security Tab = manage NTFS permissions. Specify which users/groups can access and what actions they can perform.",trick:"تريكة: Security Tab = NTFS permissions management."},
+
+{id:272,text:"'Modify' permission in Windows allows:",opts:["Reading only","Read + write + delete — but NOT changing permissions","Full control including changing permissions","Executing programs only"],ans:1,level:"medium",topic:"windows",exp:"Modify = read + write + delete. Does NOT include changing permissions (that needs Full Control).",trick:"تريكة: Modify = Read+Write+Delete. مش Full Control."},
+
+{id:273,text:"In Windows permissions, 'Deny' overrides 'Allow' because:",opts:["It is a Windows bug","Deny ALWAYS takes precedence — even if group membership allows it","Allow is weaker by design","Deny is a newer feature"],ans:1,level:"medium",topic:"windows",expected:true,exp:"Deny ALWAYS overrides Allow. Individual Deny beats Group Allow. This is fundamental Windows security.",trick:"تريكة: Deny > Allow. Always. لو Deny على اسمك = ممنوع حتى لو Group بتسمح."},
+
+{id:274,text:"The Quota Tab in Windows is exclusive to drives formatted with:",opts:["FAT32","exFAT","NTFS","ReFS"],ans:2,level:"medium",topic:"windows",exp:"Disk Quota = NTFS-only feature. Limits disk space per user on NTFS volumes.",trick:"تريكة: Quota = NTFS only."},
+
+{id:275,text:"'Deny disk space to users exceeding quota' means:",opts:["Users are warned but can still save","Users get 'Out of disk space' error even if drive has free space","The drive is formatted","Users are logged out"],ans:1,level:"medium",topic:"windows",exp:"Deny quota = 'Out of disk space' error even if physical drive has space remaining.",trick:"تريكة: Deny Quota = Out of disk space error. حتى لو في مساحة فعلية."},
+
+{id:276,text:"UAC operates on the principle of:",opts:["Maximum Privilege","Shared Access","Least Privilege","Equal Access"],ans:2,level:"easy",topic:"windows",expected:true,exp:"UAC = Least Privilege. Even administrators run apps with standard user rights by default.",trick:"تريكة: UAC = Least Privilege. حتى الـ Admin بيشتغل بصلاحيات محدودة."},
+
+{id:277,text:"The UAC Shield Icon (blue and yellow) indicates:",opts:["A dangerous file","The action requires admin privileges and will trigger a UAC prompt","The file is encrypted","A Windows update is pending"],ans:1,level:"easy",topic:"windows",exp:"Shield Icon = UAC-protected action. Will trigger UAC prompt requesting admin permission.",trick:"تريكة: Shield Icon = UAC trigger. Admin permission required."},
+
+{id:278,text:"UAC 'Never Notify' is NOT recommended because:",opts:["It slows the computer","Apps can make system changes without ANY warning — easy for malware","It uses too much storage","It encrypts all files"],ans:1,level:"medium",topic:"windows",exp:"Never Notify = UAC completely off. Malware can silently compromise the system.",trick:"تريكة: Never Notify = UAC off = DANGEROUS."},
+
+{id:279,text:"BitLocker uses which encryption algorithm?",opts:["DES","RSA","AES","SHA-256"],ans:2,level:"easy",topic:"windows",expected:true,exp:"BitLocker uses AES to encrypt the entire drive including OS files and personal data.",trick:"تريكة: BitLocker = AES. Full disk encryption."},
+
+{id:280,text:"The TPM chip in BitLocker:",opts:["Stores user passwords","Stores encryption keys and checks system health at boot — releases key only if no tampering detected","Connects to internet for key backup","Handles only biometric auth"],ans:1,level:"medium",topic:"windows",exp:"TPM = stores BitLocker keys + checks system health at boot. Tamper detected = stays locked.",trick:"تريكة: TPM = مخزن المفاتيح + health check at boot."},
+
+{id:281,text:"The BitLocker Recovery Key is:",opts:["Your Windows password","A 4-digit PIN","A 48-digit key — the ONLY way in if TPM fails or drive moves","A fingerprint backup"],ans:2,level:"medium",topic:"windows",expected:true,exp:"Recovery Key = 48-digit key. Needed if drive moved, motherboard replaced, TPM fails, or PIN forgotten.",trick:"تريكة: BitLocker Recovery Key = 48 digits. احفظه! Safety net."},
+
+{id:282,text:"BitLocker To Go is designed for:",opts:["OS drives only","RAM encryption","Removable drives like USB and external hard disks","Network drives only"],ans:2,level:"easy",topic:"windows",exp:"BitLocker To Go = BitLocker for removable drives (USB, external HDD).",trick:"تريكة: BitLocker To Go = removable drives."},
+
+{id:283,text:"Windows Firewall Public Network profile:",opts:["Is most permissive","Allows file and printer sharing","Makes PC invisible on the network — most restrictive","Is used for corporate domains"],ans:2,level:"medium",topic:"windows",expected:true,exp:"Public = most restrictive. PC invisible to others. For untrusted locations (café, airport). Blocks all inbound.",trick:"تريكة: Public = most restrictive. Coffee shop = Public profile."},
+
+{id:284,text:"Windows Firewall Inbound Rules protect against:",opts:["Your PC sending data out","External threats trying to connect to your PC","Malware already installed","Password attacks"],ans:1,level:"easy",topic:"windows",exp:"Inbound Rules = control incoming traffic. Block external threats from accessing your PC.",trick:"تريكة: Inbound = coming IN. Outbound = going OUT."},
+
+{id:285,text:"The Tools Tab in Windows Explorer is for:",opts:["Managing user permissions","Setting disk quotas","Fixing drive errors and optimizing drive performance","Managing network connections"],ans:2,level:"easy",topic:"windows",exp:"Tools Tab = drive maintenance: Error Checking + Optimize/Defragment Drive.",trick:"تريكة: Tools Tab = fix errors + optimize speed."},
+
+{id:286,text:"SSD drives benefit from TRIM during optimization because:",opts:["It defragments like HDD","It tells the SSD which blocks are unused so they can be wiped — keeps write speeds high","It reformats the drive","It increases capacity"],ans:1,level:"medium",topic:"windows",exp:"TRIM = tells SSD unused blocks → SSD wipes them → maintains write performance. Different from HDD defragmentation.",trick:"تريكة: SSD + TRIM = mark unused blocks. HDD + Defrag = rearrange files."},
+
+// ── STEGANOGRAPHY ──
+{id:287,text:"The key difference between Cryptography and Steganography is:",opts:["Cryptography is faster","Cryptography hides MESSAGE MEANING; Steganography hides MESSAGE EXISTENCE","Steganography uses keys; Cryptography does not","They are identical"],ans:1,level:"easy",topic:"stego",expected:true,exp:"Crypto = hides meaning (encrypted text visible). Stego = hides existence (message hidden in innocent carrier — no one knows).",trick:"تريكة: Crypto = hides MEANING. Stego = hides EXISTENCE."},
+
+{id:288,text:"In Steganography, the cover medium is:",opts:["The encrypted secret message","The innocent carrier file (image, audio, video, text) hiding the secret data","The encryption key","The recipient"],ans:1,level:"easy",topic:"stego",expected:true,exp:"Cover medium = the innocent-looking carrier used to hide the secret message.",trick:"تريكة: Cover medium = الغطاء. الصورة البريئة."},
+
+{id:289,text:"Modern Steganography emerged in:",opts:["1990 with the internet","1985 with personal computers","2000 with mobile phones","1970 with satellites"],ans:1,level:"medium",topic:"stego",exp:"Modern Steganography = 1985 with development of personal computers. Digital Stego = with internet.",trick:"تريكة: Modern Stego = 1985 (PCs). Digital Stego = internet era."},
+
+{id:290,text:"The first book about Steganography (1499) was called:",opts:["Cryptonomicon","Steganographia","The Art of War","Digital Secrets"],ans:1,level:"hard",topic:"stego",exp:"Steganographia (1499) = first book about steganography written in Ancient Rome.",trick:"تريكة: First stego book = Steganographia, 1499."},
+
+{id:291,text:"LSB steganography is imperceptible because:",opts:["It uses the first bit","The LSB changes color value by at most 1 — invisible to the human eye","It doubles resolution","It compresses the image"],ans:1,level:"medium",topic:"stego",expected:true,exp:"LSB = bit 0 = value of 1 out of 255. Replacing it changes color by ≤1 — completely invisible.",trick:"تريكة: LSB = change by ≤1 = invisible."},
+
+{id:292,text:"A 1 megapixel image can hide approximately:",opts:["1 MB","375 KB","100 KB","10 MB"],ans:1,level:"hard",topic:"stego",exp:"1MP × 3 RGB channels × 1 bit = ~375,000 bytes ≈ 375 KB hidden data.",trick:"تريكة: 1MP = ~375 KB. 1 million pixels × 3 channels × 1 bit."},
+
+{id:293,text:"The Stego Key serves as:",opts:["The cover medium","Secret information needed to EXTRACT the embedded message","The encryption algorithm","The file format"],ans:1,level:"easy",topic:"stego",exp:"Stego Key = secret password needed to extract the hidden message from the stego-medium.",trick:"تريكة: Stego Key = password for extraction."},
+
+{id:294,text:"A Statistical Attack in steganalysis uses:",opts:["Visual inspection","Brute force","Chi-square test, RS analysis, histogram — detects statistical deviations","Machine learning only"],ans:2,level:"hard",topic:"stego",expected:true,exp:"Statistical Attack = chi-square, RS analysis, histogram analysis to detect statistical anomalies from embedding.",trick:"تريكة: Statistical steganalysis = chi-square + RS analysis + histogram."},
+
+{id:295,text:"The Insertion Technique in steganography has the main problem of:",opts:["Too difficult to implement","Significantly increasing the size of the carrier file — detectable","Only works with text","Requiring encryption keys"],ans:1,level:"medium",topic:"stego",exp:"Insertion Technique = directly injects data. Problem = significantly increases file size = detectable.",trick:"تريكة: Insertion = simple but increases file size."},
+
+{id:296,text:"Which real-world case used steganography in public website images for spy communication?",opts:["WannaCry","Anna Chapman & Russian SVR (2010)","SolarWinds","Twitter 2020"],ans:1,level:"hard",topic:"stego",exp:"Anna Chapman (2010) = Russian SVR agents hid messages in public website images to communicate with Moscow.",trick:"تريكة: Anna Chapman 2010 = Russian agents + stego in public images."},
+
+{id:297,text:"Digital Watermarks are:",opts:["Visible logos only","Visible or invisible identification codes permanently embedded in digital data","Temporary metadata","Password-protected files"],ans:1,level:"easy",topic:"stego",expected:true,exp:"Digital Watermark = permanent identification code embedded in data. Remains after decryption. Copyright protection.",trick:"تريكة: Digital Watermark = permanent + survives decryption."},
+
+{id:298,text:"Fragile vs Robust watermarks:",opts:["Fragile are more secure","Fragile break easily (detect tampering); Robust survive manipulations","They are identical","Robust only for images"],ans:1,level:"medium",topic:"stego",expected:true,exp:"Fragile = break when content modified (detect tampering). Robust = survive manipulations (copyright persistence).",trick:"تريكة: Fragile = detects tampering. Robust = survives = copyright."},
+
+{id:299,text:"The capacity vs imperceptibility trade-off in steganography means:",opts:["More data = always undetectable","More hidden data = more statistical artifacts = higher detection risk","Imperceptibility is impossible","All stego tools detect hidden data"],ans:1,level:"hard",topic:"stego",exp:"More hidden data → more distortion → easier to detect. Must balance capacity with imperceptibility.",trick:"تريكة: More data hidden = more detectable. Trade-off: Capacity vs Imperceptibility."},
+
+// ── AUTHENTICATION & ACCESS CONTROL ──
+{id:300,text:"Authentication answers:",opts:["What can you do?","Are you who you say you are?","When did you last log in?","Which resources do you own?"],ans:1,level:"easy",topic:"auth",expected:true,exp:"Authentication = identity verification. 'Are you who you say you are?'",trick:"تريكة: Authentication = 'Are you who you say you are?' Identity."},
+
+{id:301,text:"Authorization answers:",opts:["Are you who you say you are?","What are you allowed to do?","When did you register?","Which team are you on?"],ans:1,level:"easy",topic:"auth",expected:true,exp:"Authorization = determines access rights AFTER authentication. 'What are you allowed to do?'",trick:"تريكة: Authorization = 'What can you do?' Access rights."},
+
+{id:302,text:"The correct sequence is:",opts:["Authorization first, then authentication","They happen simultaneously","Authentication FIRST, then authorization","Authentication is optional"],ans:2,level:"easy",topic:"auth",expected:true,exp:"Authentication (verify identity) FIRST → Authorization (grant permissions) SECOND.",trick:"تريكة: AuthN → AuthZ. N before Z. Identity first, access second."},
+
+{id:303,text:"Single Sign-On (SSO) means:",opts:["Log in once per application","One login to access multiple systems","Never log out","Share one password with team"],ans:1,level:"easy",topic:"auth",expected:true,exp:"SSO = one login grants access to multiple systems. Reduces password fatigue.",trick:"تريكة: SSO = تسجيل دخول واحد = كل الأنظمة."},
+
+{id:304,text:"SMS OTP as MFA is considered:",opts:["Strongest MFA","Equal to hardware keys","Weakest MFA — prefer TOTP apps or hardware keys","Not a valid MFA method"],ans:2,level:"medium",topic:"auth",expected:true,exp:"SMS OTP = weakest MFA. Vulnerable to SIM swapping, SS7 attacks. TOTP apps and YubiKey are stronger.",trick:"تريكة: SMS OTP = weakest MFA. SIM swap breaks it."},
+
+{id:305,text:"TOTP is used in:",opts:["Email attachments","Google Authenticator and Authy — time-based codes expiring every ~30 seconds","Windows permissions","Bitcoin wallets only"],ans:1,level:"medium",topic:"auth",exp:"TOTP = Google Authenticator, Authy. Time-based 6-digit codes expiring every 30-60 seconds.",trick:"تريكة: TOTP = Google Authenticator + Authy. Time-based."},
+
+{id:306,text:"Privilege Creep refers to:",opts:["Too few permissions","Users gradually accumulating more access than needed over time","Admins sharing passwords","Automatic access grants"],ans:1,level:"medium",topic:"auth",expected:true,exp:"Privilege Creep = accumulating unnecessary permissions over time. Solved by regular access reviews.",trick:"تريكة: Privilege Creep = صلاحيات بتتراكم مع الوقت."},
+
+{id:307,text:"DAC (Discretionary Access Control) is characterized by:",opts:["System-enforced strict policies","Resource OWNERS control access — flexible but hard to manage at scale","Military-grade control","Attribute-based decisions"],ans:1,level:"medium",topic:"auth",exp:"DAC = owners decide who gets access. Flexible but difficult at scale. Common in file systems.",trick:"تريكة: DAC = owner decides. Your file = you decide."},
+
+{id:308,text:"MAC (Mandatory Access Control) is primarily used in:",opts:["E-commerce","Social media","Military and government with security labels","Small businesses"],ans:2,level:"easy",topic:"auth",expected:true,exp:"MAC = system-enforced based on security labels. Users cannot override. Military/government use.",trick:"تريكة: MAC = Military + Government. System enforces, not users."},
+
+{id:309,text:"ABAC makes decisions based on:",opts:["User roles only","Time-of-day rules only","Fine-grained policies: user + resource + context attributes (time, device, location)","Password strength"],ans:2,level:"hard",topic:"auth",exp:"ABAC = most flexible. Multiple attributes: who + what + when + where + what device.",trick:"تريكة: ABAC = Attributes = user + resource + context. Most flexible."},
+
+{id:310,text:"OAuth 2.0 is described as a 'Digital Valet Key' because:",opts:["It stores all passwords","It gives LIMITED access to specific resources without sharing the main password","It gives full access","It needs physical presence"],ans:1,level:"medium",topic:"auth",expected:true,exp:"OAuth 2.0 = limited, scoped access without revealing passwords. Like a valet key — park the car but not open the trunk.",trick:"تريكة: OAuth 2.0 = Digital Valet Key = limited access."},
+
+{id:311,text:"In OAuth 2.0, the Resource Owner is:",opts:["The requesting application","The authorization server","You (the user) who owns the data","The API holding data"],ans:2,level:"medium",topic:"auth",exp:"OAuth players: Resource Owner (you), Client (app), Auth Server (Google/GitHub), Resource Server (API).",trick:"تريكة: Resource Owner = أنت."},
+
+{id:312,text:"Credential Stuffing uses:",opts:["Random brute force","Breached username/password pairs from data leaks tried on other services","Physical server access","Keyloggers"],ans:1,level:"medium",topic:"auth",expected:true,exp:"Credential Stuffing = automated login using breached credentials. Exploits password reuse. Mitigated by MFA.",trick:"تريكة: Credential Stuffing = breached passwords from other sites. Password reuse problem."},
+
+{id:313,text:"CSRF attacks work by:",opts:["Stealing cookies directly","Forcing authenticated users to execute unwanted actions via malicious sites","Brute forcing passwords","Installing malware"],ans:1,level:"hard",topic:"auth",exp:"CSRF = forges requests from authenticated user's browser. Mitigated by CSRF tokens and SameSite cookies.",trick:"تريكة: CSRF = forged request using victim's active session."},
+
+{id:314,text:"Session Hijacking is mitigated by:",opts:["Longer passwords","Secure cookies and token rotation","Disabling JavaScript","Using only HTTPS"],ans:1,level:"hard",topic:"auth",exp:"Session Hijacking = stealing session tokens. Mitigated by secure cookies (HttpOnly, Secure) and token rotation.",trick:"تريكة: Session Hijacking = steal token. Mitigation = Secure cookies + rotation."},
+
+{id:315,text:"IAM key components include:",opts:["Only password policies","User provisioning, authentication, password policies, and audit logging","Hardware installation","Network configuration"],ans:1,level:"medium",topic:"auth",exp:"IAM: (1) User provisioning, (2) Authentication mechanisms, (3) Password policies, (4) Audit logging.",trick:"تريكة: IAM = Provisioning + Auth + Passwords + Audit."},
+
+// ── KALI LINUX ──
+{id:316,text:"Kali Linux is based on:",opts:["Red Hat","Ubuntu","Debian","Arch Linux"],ans:2,level:"easy",topic:"kali",expected:true,exp:"Kali Linux = Debian-based distribution by Offensive Security. For penetration testing and ethical hacking.",trick:"تريكة: Kali = Debian-based. Offensive Security."},
+
+{id:317,text:"Kali Linux includes how many pre-installed tools?",opts:["50+","200+","600+","2000+"],ans:2,level:"easy",topic:"kali",expected:true,exp:"Kali = 600+ pre-installed cybersecurity tools.",trick:"تريكة: Kali = 600+ tools. Six hundred!"},
+
+{id:318,text:"Aircrack-ng is a suite for:",opts:["Network scanning","Vulnerability assessment","WiFi network security assessment — monitoring, attacking, testing, cracking WEP/WPA","Password management"],ans:2,level:"medium",topic:"kali",expected:true,exp:"Aircrack-ng = WiFi security: monitoring (packet capture), attacking (injection), testing (driver capabilities), cracking (WEP+WPA).",trick:"تريكة: Aircrack-ng = WiFi security. WEP + WPA cracking."},
+
+{id:319,text:"Nmap is primarily used for:",opts:["WiFi cracking","Full-disk encryption","Network discovery and security auditing — hosts, services, OS, firewalls","Password brute forcing"],ans:2,level:"easy",topic:"kali",expected:true,exp:"Nmap = Network Mapper. Finds hosts, services, OSes, firewall details. Network discovery + auditing.",trick:"تريكة: Nmap = Network Mapper = discovery + auditing."},
+
+{id:320,text:"THC Hydra performs:",opts:["Network packet capture","Rapid dictionary/brute force attacks against 50+ remote authentication protocols","WiFi cracking","Disk encryption"],ans:1,level:"medium",topic:"kali",expected:true,exp:"THC Hydra = rapid dictionary attacks. Supports 50+ protocols: FTP, HTTP, SMB, telnet, databases.",trick:"تريكة: Hydra = dictionary attacks + 50+ protocols."},
+
+{id:321,text:"Nessus is a remote scanning tool that:",opts:["Cracks passwords","Captures network packets","Checks for security vulnerabilities using 1200+ checks — alerts when patches needed","Monitors WiFi"],ans:2,level:"medium",topic:"kali",exp:"Nessus = vulnerability scanner. 1200+ checks. Finds vulnerabilities, does NOT block them.",trick:"تريكة: Nessus = vulnerability scanner. 1200+ checks. يكشف مش يسد."},
+
+{id:322,text:"WireShark is:",opts:["A firewall","A password manager","The world's most widely-used network protocol analyzer — captures and analyzes packets","A vulnerability scanner"],ans:2,level:"easy",topic:"kali",expected:true,exp:"WireShark = open-source packet analyzer. Sees all network traffic at microscopic level. World's #1.",trick:"تريكة: WireShark = packet analyzer. World's #1."},
+
+{id:323,text:"Which Kali category includes tools for recovering deleted data?",opts:["Wireless Attacks","Password Attacks","Forensics Tools","Exploitation Tools"],ans:2,level:"medium",topic:"kali",exp:"Forensics Tools = digital forensics — data recovery, disk analysis, memory forensics.",trick:"تريكة: Forensics = investigation + data recovery."},
+
+{id:324,text:"'Information Gathering' in Kali tools is used for:",opts:["Cracking passwords","Reconnaissance — collecting data about targets before an attack","WiFi monitoring","Bypassing encryption"],ans:1,level:"medium",topic:"kali",exp:"Information Gathering = reconnaissance phase — IPs, domains, emails, network topology.",trick:"تريكة: Information Gathering = Reconnaissance = جمع معلومات عن الهدف."},
+
+// ── TRICKY / SCENARIO ──
+{id:325,text:"SCENARIO: Identical plaintext blocks produce identical ciphertext blocks in an encrypted image. Which cipher mode?",opts:["GCM","CBC","ECB","CTR"],ans:2,level:"tricky",topic:"crypto",expected:true,exp:"ECB (Electronic Codebook) = identical plaintext → identical ciphertext. INSECURE — patterns visible.",trick:"تريكة: Identical in = identical out = ECB. The famous ECB penguin flaw."},
+
+{id:326,text:"TRAP: Which provides NON-REPUDIATION?",opts:["Symmetric encryption","Digital Signatures","Hashing alone","Firewalls"],ans:1,level:"tricky",topic:"crypto",expected:true,exp:"Digital Signatures = non-repudiation. Symmetric uses shared key so either party could have encrypted — no non-repudiation.",trick:"تريكة: Non-repudiation = Digital Signatures only. Symmetric = shared key = no non-repudiation."},
+
+{id:327,text:"TRAP: Cloud Security is which of the 7 Layers of Cybersecurity?",opts:["Layer 3: Application Security","Layer 6: Perimeter Security","Layer 2: Data Security","It is NOT one of the 7 layers"],ans:3,level:"tricky",topic:"cyber",exp:"7 Layers: Mission Critical Assets, Data Security, Application Security, Endpoint Security, Network Security, Perimeter Security, Human Layer. Cloud Security = type, not a layer.",trick:"تريكة: Cloud Security مش layer في الـ 7. هو type. الـ 7 layers معروفة."},
+
+{id:328,text:"Public Key Cryptography was invented to solve:",opts:["Slow encryption","The key distribution problem of symmetric cryptography","Weak hash functions","Firewall bypass"],ans:1,level:"hard",topic:"crypto",expected:true,exp:"Public Key Crypto = invented to solve the KEY DISTRIBUTION PROBLEM. Public keys shared openly; private keys kept secret.",trick:"تريكة: Public Key = solution to key distribution problem."},
+
+{id:329,text:"TRAP: Which biometric security ranking is CORRECT?",opts:["Fingerprint > Iris > Handprint","Iris > Fingerprint > Handprint > Voice > Keystroke > Signature","Voice > Iris > Fingerprint","Signature > Fingerprint > Iris"],ans:1,level:"hard",topic:"physical",expected:true,exp:"Correct ranking (most → least secure): Iris > Fingerprint > Handprint > Voice > Keystroke > Signature.",trick:"تريكة: Iris = most secure. Signature = least secure."},
+
+{id:330,text:"TRAP: SHA-1 is currently classified as:",opts:["Secure and recommended","Deprecated — should not be used for new applications","Broken like MD5","The newest standard"],ans:1,level:"hard",topic:"crypto",expected:true,exp:"SHA-1 = Deprecated. Not broken like MD5 but theoretical attacks exist. Use SHA-256 or SHA-3.",trick:"تريكة: SHA-1 = Deprecated. MD5 = Broken. SHA-256 = Secure."},
+
+// ── TRUE/FALSE ──
+{id:331,text:"InfoSec protects sensitive data from unauthorized access, use, alteration, or destruction. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"True. Direct definition of InfoSec.",trick:"تريكة: InfoSec = unauthorized access + use + alteration + destruction. صح."},
+
+{id:332,text:"Integrity means preventing unauthorized disclosure. (T/F)",opts:["True","False"],ans:1,level:"easy",topic:"tf",expected:true,exp:"False. Integrity = accuracy/completeness. CONFIDENTIALITY = prevents unauthorized disclosure.",trick:"تريكة: Integrity ≠ disclosure. Confidentiality = prevents disclosure. Integrity = prevents modification."},
+
+{id:333,text:"Phishing is a social engineering attack where attackers trick people into revealing sensitive information. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"True. Phishing = social engineering using fake emails, websites, SMS to steal credentials.",trick:"تريكة: Phishing = social engineering = tricks people. صح."},
+
+{id:334,text:"Cyberspace is the environment in which communication over computer networks occurs. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",exp:"True. Direct definition from the lecture.",trick:"تريكة: Cyberspace = communication over computer networks. صح."},
+
+{id:335,text:"Cybersecurity is a branch of Information Security that protects networks and data from illegal access. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"True. Cybersecurity = the InfoSec branch specifically for networks and digital data.",trick:"تريكة: Cybersecurity = branch of InfoSec. صح."},
+
+{id:336,text:"Cloud Security protects physical paper documents. (T/F)",opts:["True","False"],ans:1,level:"medium",topic:"tf",expected:true,exp:"False. Cloud Security = digital/cloud infrastructure. Physical paper = Physical Security.",trick:"تريكة: Cloud = digital only. Physical paper = Physical Security."},
+
+{id:337,text:"Mission Critical Assets layer protects the storage and transfer of data. (T/F)",opts:["True","False"],ans:1,level:"medium",topic:"tf",expected:true,exp:"False. Mission Critical Assets = the data TO protect. Data Security layer = protects storage/transfer.",trick:"تريكة: Mission Critical = the data itself. Data Security = how it's protected."},
+
+{id:338,text:"Malware is designed to install into a computer without user approval. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",exp:"True. Malware = unauthorized access or installation without user approval.",trick:"تريكة: Malware = unauthorized = without approval. صح."},
+
+{id:339,text:"Trojan spreads through social media and instant messaging apps. (T/F)",opts:["True","False"],ans:1,level:"medium",topic:"tf",expected:true,exp:"False. That is SPAM. Trojans disguise as useful software to create backdoors — don't spread via social media.",trick:"تريكة: Spam = social media spreading. Trojan = disguise + backdoor."},
+
+{id:340,text:"Antispyware detects, blocks, and removes spyware. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",exp:"True. Antispyware = detects + blocks + removes spyware.",trick:"تريكة: Antispyware = detect + block + remove. صح."},
+
+{id:341,text:"Keystroke logging records keys pressed to steal confidential information. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"True. Keylogging = records keystrokes to capture passwords and confidential data.",trick:"تريكة: Keylogging = records keystrokes. صح."},
+
+{id:342,text:"Physical security protects from fire, natural disasters, robbery, and destruction. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"True. Physical security definition.",trick:"تريكة: Physical = fire + disasters + robbery + destruction. صح."},
+
+{id:343,text:"CCTV cameras are connected via cable to a DVD. (T/F)",opts:["True","False"],ans:1,level:"medium",topic:"tf",expected:true,exp:"False. CCTV → DVR (Digital Video Recorder), NOT DVD. DVR ≠ DVD.",trick:"تريكة: CCTV → DVR مش DVD. DVR = Digital Video Recorder."},
+
+{id:344,text:"'Leadership war' is another name for Dumpster Diving. (T/F)",opts:["True","False"],ans:0,level:"medium",topic:"tf",exp:"True. Dumpster Diving = also called 'leadership war' in the lecture.",trick:"تريكة: Leadership war = Dumpster Diving. صح."},
+
+{id:345,text:"Cryptography is the science of using mathematics to encrypt and decrypt data. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"True. Direct definition of cryptography.",trick:"تريكة: Cryptography = mathematics + encrypt + decrypt. صح."},
+
+{id:346,text:"Plaintext is the scrambled unreadable output after encryption. (T/F)",opts:["True","False"],ans:1,level:"easy",topic:"tf",expected:true,exp:"False. Plaintext = readable ORIGINAL message. Ciphertext = scrambled after encryption.",trick:"تريكة: Plaintext = readable (before). Ciphertext = unreadable (after). الجملة معكوسة."},
+
+{id:347,text:"Cryptography can provide non-repudiation services. (T/F)",opts:["True","False"],ans:0,level:"medium",topic:"tf",expected:true,exp:"True. Via digital signatures, cryptography provides non-repudiation.",trick:"تريكة: Cryptography → Digital Signatures → Non-repudiation. صح."},
+
+{id:348,text:"The Security Tab in Windows manages permissions on files, folders, and drives. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"True. Security Tab = NTFS permissions management.",trick:"تريكة: Security Tab = permissions. صح."},
+
+{id:349,text:"Authenticated Users are anyone logged in with a valid Windows account. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",exp:"True. Authenticated Users = any user with valid account logged in.",trick:"تريكة: Authenticated Users = valid account login. صح."},
+
+{id:350,text:"'Write' permission in Windows allows changing file content. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"True. Write = allows making changes to file content.",trick:"تريكة: Write = تعديل محتوى. صح."},
+
+{id:351,text:"BitLocker is available in Windows Home edition. (T/F)",opts:["True","False"],ans:1,level:"medium",topic:"tf",expected:true,exp:"False. BitLocker = Windows Pro, Enterprise, Education ONLY. Not Home.",trick:"تريكة: BitLocker = Pro+Enterprise+Education. مش Home."},
+
+{id:352,text:"The Tools Tab is where you fix errors and optimize drive speed. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",exp:"True. Tools Tab = Error Checking + Optimize/Defragment.",trick:"تريكة: Tools Tab = fix + optimize. صح."},
+
+{id:353,text:"Steganography hides the EXISTENCE of a message; Cryptography hides its MEANING. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"True. Crypto = hides meaning. Stego = hides existence.",trick:"تريكة: Stego = existence. Crypto = meaning. صح."},
+
+{id:354,text:"Digital Steganography started with the internet and includes digital watermarking. (T/F)",opts:["True","False"],ans:0,level:"medium",topic:"tf",exp:"True. Digital Stego evolved with the internet. Digital watermarking is a modern application.",trick:"تريكة: Digital Stego = internet + watermarking. صح."},
+
+{id:355,text:"The insertion technique directly injects secret information into the carrier file. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",exp:"True. Insertion = simplest method — direct injection. Problem = increases file size.",trick:"تريكة: Insertion = direct injection. صح."},
+
+{id:356,text:"A watermark cannot be effectively photocopied or scanned. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"True. Watermarks cannot be effectively photocopied — key security feature for banknotes and passports.",trick:"تريكة: Watermark = cannot be photocopied. صح."},
+
+{id:357,text:"Authentication verifies the identity of a user, device, or system. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"True. Authentication = identity verification.",trick:"تريكة: Authentication = identity verification. صح."},
+
+{id:358,text:"Authorization occurs BEFORE authentication. (T/F)",opts:["True","False"],ans:1,level:"easy",topic:"tf",expected:true,exp:"False. Authentication FIRST (verify identity), THEN Authorization (grant access).",trick:"تريكة: Authentication → then Authorization. مش العكس."},
+
+{id:359,text:"MFA reduces unauthorized access risk even if a password is stolen. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"True. MFA = 2+ factors. Stolen password ≠ full access — still need second factor.",trick:"تريكة: MFA = extra layers. صح."},
+
+{id:360,text:"Kali Linux is developed by Offensive Security. (T/F)",opts:["True","False"],ans:0,level:"easy",topic:"tf",expected:true,exp:"True. Kali = Offensive Security. Open-source Debian-based.",trick:"تريكة: Kali = Offensive Security. صح."},
+
+// ── FINAL ANALYTICAL QUESTIONS ──
+{id:361,text:"TRAP: Which is a BEHAVIORAL biometric?",opts:["Iris pattern","Fingerprint","Handprint","Signature"],ans:3,level:"hard",topic:"physical",expected:true,exp:"Physiological = body shape (iris, fingerprint, handprint). Behavioral = behavior (signature, voice, writing, keystroke).",trick:"تريكة: Behavioral = behavior-based. Signature + Voice + Writing + Keystroke."},
+
+{id:362,text:"Birthday Attack exploits:",opts:["Weak passwords","Hash collisions — finding two different messages with the same hash","Physical server access","Weak random numbers"],ans:1,level:"hard",topic:"crypto",expected:true,exp:"Birthday Attack = exploits birthday paradox probability to find hash collisions.",trick:"تريكة: Birthday = hash collisions. Needs ≥256-bit digests to mitigate."},
+
+{id:363,text:"SCENARIO: User is in a group with 'Read Allow' but has individual 'Deny Read'. What happens?",opts:["Group Allow wins","Individual Deny wins — cannot read the folder","Need admin approval","Can read but not write"],ans:1,level:"tricky",topic:"windows",expected:true,exp:"Deny ALWAYS overrides Allow — individual Deny beats group Allow.",trick:"تريكة: Deny > Allow always."},
+
+{id:364,text:"WannaCry ransomware (2017) exploited a vulnerability in:",opts:["macOS","Linux kernel","Microsoft Windows","Android"],ans:2,level:"medium",topic:"cyber",expected:true,exp:"WannaCry = exploited Windows vulnerability (EternalBlue). Encrypted files, demanded Bitcoin ransom. 150+ countries.",trick:"تريكة: WannaCry = Windows vulnerability. EternalBlue. 2017."},
+
+{id:365,text:"The Target breach (2013) lesson about third-party risk is:",opts:["Block all third parties","Third-party vendors with network access can be the weakest link","Only internal employees are threats","Credit card data should not be stored"],ans:1,level:"hard",topic:"cyber",exp:"Target = HVAC contractor with network access = attack vector. 'Chain is only as strong as its weakest link.'",trick:"تريكة: Target breach = third-party vendor (HVAC) = weakest link."},
+
+{id:366,text:"SYNTHESIS: Shor's algorithm threatens which cryptographic systems?",opts:["AES and symmetric ciphers","Hash functions only","RSA and ECC — asymmetric systems","Stream ciphers"],ans:2,level:"hard",topic:"crypto",expected:true,exp:"Shor's (quantum) = breaks RSA (factorization) and ECC (discrete log). Grover's halves symmetric key security.",trick:"تريكة: Shor's = breaks RSA + ECC. Grover's = halves symmetric security."},
+
+{id:367,text:"COMPARISON: Hot Site vs Cold Site — main difference:",opts:["Hot = cheaper","Hot = fully equipped and ready immediately; Cold = empty space with basics only","Hot = for fires only","They are identical"],ans:1,level:"medium",topic:"physical",expected:true,exp:"Hot = fully equipped + backup data = resume IMMEDIATELY. Cold = empty space = needs equipment before use.",trick:"تريكة: Hot = ready NOW. Cold = just a space. Hot = expensive + fast. Cold = cheap + slow."},
+
+{id:368,text:"Twitter Hack (2020) used which attack vector?",opts:["Malware injection","Zero-day exploit","Social engineering — tricking Twitter employees into giving admin tool access","Ransomware"],ans:2,level:"medium",topic:"auth",expected:true,exp:"Twitter 2020 = social engineering (vishing) — attackers called Twitter employees and tricked them into providing credentials.",trick:"تريكة: Twitter 2020 = social engineering (phone calls to employees)."},
+
+{id:369,text:"The Human Layer is the OUTERMOST of the 7 layers because:",opts:["Easiest to protect","Humans are the weakest link — social engineering targets human psychology","Most technical layer","Only deals with physical access"],ans:1,level:"medium",topic:"cyber",expected:true,exp:"Human Layer = outermost = most exposed. Humans are the weakest link — no technology fully compensates.",trick:"تريكة: Human = weakest link. Social engineering targets humans."},
+
+{id:370,text:"SCENARIO: Organization stores passwords as unsalted MD5 hashes. Most effective attack?",opts:["Brute Force only","Birthday Attack","Rainbow Table Attack — precomputed MD5 instantly cracks unsalted passwords","Replay Attack"],ans:2,level:"hard",topic:"crypto",expected:true,exp:"Unsalted MD5 = vulnerable to rainbow tables. Attacker looks up hash → instantly finds password. Use bcrypt/Argon2 with salt.",trick:"تريكة: Unsalted MD5 = Rainbow Table attack. Salt بيجعل precomputed table عديمة الفائدة."},
+
+{id:371,text:"TRAP: OAuth 2.0 is:",opts:["An authentication protocol","An AUTHORIZATION protocol — delegates access without sharing passwords","Requires sharing passwords with third-party apps","Uses symmetric encryption only"],ans:1,level:"tricky",topic:"auth",expected:true,exp:"OAuth 2.0 = AUTHORIZATION protocol (not authentication). Delegates access. For auth, use OIDC on top.",trick:"تريكة: OAuth = Authorization, NOT Authentication. Classic confusion."},
+
+{id:372,text:"TRAP: Which BACKUP type gets LARGER over time until the next full backup?",opts:["Incremental","Full","Mirror","Differential"],ans:3,level:"hard",topic:"physical",expected:true,exp:"Differential = changes since last FULL backup — grows larger each day. Incremental = only since last backup = always small.",trick:"تريكة: Differential gets LARGER. Incremental stays small. Classic exam trap!"},
+
+{id:373,text:"GCM mode for AES provides:",opts:["Confidentiality only","Confidentiality + Integrity (authenticated encryption)","Authentication + Non-repudiation","Availability only"],ans:1,level:"tricky",topic:"crypto",expected:true,exp:"GCM = authenticated encryption. Confidentiality (AES) + Integrity/Authentication (GHASH tag). NOT non-repudiation.",trick:"تريكة: AES-GCM = Confidentiality + Integrity. مش Non-repudiation."},
+
+{id:374,text:"COMPREHENSIVE: Extended InfoSec model beyond CIA Triad adds:",opts:["Speed, Reliability, Scalability","Non-repudiation, Authenticity, Accountability","Encryption, Hashing, Signatures","Firewalls, IDS, VPN"],ans:1,level:"tricky",topic:"infosec",expected:true,exp:"Full model = CIA (Confidentiality + Integrity + Availability) + Non-repudiation + Authenticity + Accountability = 6 principles.",trick:"تريكة: CIA (3) + Non-repudiation + Authenticity + Accountability = 6 core InfoSec principles."},
+
+{id:375,text:"ULTIMATE TRAP: JPEG compression DESTROYS LSB steganography because:",opts:["JPEG is too small","JPEG lossy compression modifies pixel values — destroying hidden LSB data. LSB stego needs LOSSLESS formats (PNG, BMP)","JPEG has no pixels","JPEG files are encrypted"],ans:1,level:"tricky",topic:"stego",expected:true,exp:"JPEG = lossy compression = changes pixel values = destroys LSB data. LSB stego needs lossless: BMP, PNG. JPEG stego uses DCT-domain methods instead.",trick:"تريكة: JPEG + LSB = incompatible. Lossy compression destroys LSB. Use PNG or BMP for LSB."},
+
+];
+
+let questions=[...ALL_Q],answered={},perPage=10,curPage=0,filtered=[...questions];
+
+function topicLabel(t){const m={infosec:'InfoSec Basics',cyber:'Cybersecurity',crypto:'Cryptography',physical:'Physical Security',stego:'Steganography',auth:'Auth & Access',windows:'Windows Security',kali:'Kali Linux',tf:'True/False'};return m[t]||t;}
+function levelLabel(l){const m={easy:'✅ Easy',medium:'⚡ Medium',hard:'🔥 Hard',tricky:'🧠 Tricky'};return m[l]||l;}
+
+function applyFilter(){
+  const t=document.getElementById('ft').value,l=document.getElementById('fl').value,tp=document.getElementById('ftype').value;
+  filtered=questions.filter(q=>(t==='all'||q.topic===t)&&(l==='all'||q.level===l)&&(tp==='all'||(tp==='expected'&&q.expected)));
+  curPage=0;render();
+}
+function filterExp(){document.getElementById('ftype').value='expected';applyFilter();}
+
+
+
+function render(){
+  const start=curPage*perPage,end=start+perPage,pageQ=filtered.slice(start,end);
+  let html='';
+  pageQ.forEach(q=>{
+    const state=answered[q.id],cardClass=state!==undefined?(state===q.ans?'correct':'wrong'):'',isTF=q.topic==='tf';
+    html+=`<div class="q-card ${cardClass}" id="card-${q.id}">
+      <div class="q-meta">
+        <span class="q-num">Q${q.id}</span>
+        <span class="q-badge lvl-${q.level}">${levelLabel(q.level)}</span>
+        <span class="q-badge t-${q.topic}">${topicLabel(q.topic)}</span>
+        ${q.expected?'<span class="q-badge expected-badge">⭐ Expected</span>':''}
+        ${isTF?'<span class="q-badge t-tf">T/F</span>':''}
+      </div>
+      <div class="q-text">${q.text}</div>
+      <div class="options${isTF?' tf-opts':''}">`;
+    q.opts.forEach((o,i)=>{
+      let cls='';
+      if(state!==undefined){if(i===q.ans)cls='reveal-correct';else if(i===state&&state!==q.ans)cls='selected-wrong';}
+      html+=`<button class="opt-btn ${cls}" ${state!==undefined?'disabled':''} onclick="pick(${q.id},${i})">${isTF?'':String.fromCharCode(65+i)+'. '}${o}</button>`;
+    });
+    html+=`</div>
+      <div class="explanation ${state!==undefined?'show':''}" id="exp-${q.id}">💡 ${q.exp}</div>
+      <div class="trick-box ${state!==undefined?'show':''}" id="trick-${q.id}">
+        <div class="trick-label">⚡ الـ Trick</div>
+        <div class="trick-text">${q.trick}</div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('qlist').innerHTML=html;
+  updateStats();renderPag();
+}
+
+function pick(id,choice){
+  if(answered[id]!==undefined)return;
+  answered[id]=choice;
+  const q=questions.find(x=>x.id===id),card=document.getElementById('card-'+id);
+  if(choice===q.ans){card.classList.add('correct');}
+  else{card.classList.add('wrong');}
+  card.querySelectorAll('.opt-btn').forEach((b,i)=>{b.disabled=true;if(i===q.ans)b.classList.add('reveal-correct');else if(i===choice&&choice!==q.ans)b.classList.add('selected-wrong');});
+  document.getElementById('exp-'+id).classList.add('show');
+  document.getElementById('trick-'+id).classList.add('show');
+  updateStats();
+}
+
+function updateStats(){
+  const total=filtered.length;
+  const ans=Object.keys(answered).filter(id=>filtered.find(q=>q.id==id)).length;
+  const cor=Object.keys(answered).filter(id=>{const q=filtered.find(q=>q.id==id);return q&&answered[id]===q.ans;}).length;
+  document.getElementById('s-ans').textContent=ans;
+  document.getElementById('s-cor').textContent=cor;
+  document.getElementById('s-wrn').textContent=ans-cor;
+  document.getElementById('s-rem').textContent=total-ans;
+  document.getElementById('prog').style.width=total>0?(ans/total*100)+'%':'0%';
+}
+
+function submitAll(){
+  const total=filtered.length,cor=filtered.filter(q=>answered[q.id]===q.ans).length;
+  const pct=Math.round(cor/total*100);
+  const grade=pct>=90?'🏆 Excellent! القمر بتاعنا!':pct>=75?'👍 Very Good! برافو يا قمر':pct>=60?'✅ Pass! كمّلي':pct>=50?'⚠️ Almost! تقدري أحسن':'❌ Review Again! القمر دايماً يرجع 🌙';
+  document.getElementById('sp-score').textContent=pct+'%';
+  document.getElementById('sp-grade').textContent=grade;
+  document.getElementById('sp-c').textContent=cor;
+  document.getElementById('sp-w').textContent=total-cor;
+  document.getElementById('sp-t').textContent=total;
+  document.getElementById('score-panel').style.display='block';
+  document.getElementById('score-panel').scrollIntoView({behavior:'smooth'});
+}
+
+function showAll(){filtered.forEach(q=>{if(answered[q.id]===undefined)answered[q.id]=q.ans;});render();}
+function resetAll(){answered={};document.getElementById('score-panel').style.display='none';render();}
+function shuffleQ(){questions=[...ALL_Q].sort(()=>Math.random()-0.5);filtered=[...questions];applyFilter();}
+
+function renderPag(){
+  const pages=Math.ceil(filtered.length/perPage);let html='';
+  if(curPage>0)html+=`<button class="pg-btn" onclick="goPage(${curPage-1})">◀</button>`;
+  for(let i=0;i<pages;i++)html+=`<button class="pg-btn ${i===curPage?'active':''}" onclick="goPage(${i})">${i+1}</button>`;
+  if(curPage<pages-1)html+=`<button class="pg-btn" onclick="goPage(${curPage+1})">▶</button>`;
+  document.getElementById('pag').innerHTML=html;
+}
+
+function goPage(p){curPage=p;render();document.querySelector('.main').scrollIntoView({behavior:'smooth'});}
+render();
+</script>
+</body>
+</html>
